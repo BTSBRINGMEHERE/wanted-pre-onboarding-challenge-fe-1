@@ -13,7 +13,7 @@ const Header = () => {
       <div>just do it!</div>
 
       <nav>
-        {isLogin && <Link to="/auth/logout">로그아웃</Link>}
+        {isLogin && <Link to="/logout">로그아웃</Link>}
         {!isLogin && (
           <>
             <Link to="/auth/login">로그인</Link>

@@ -1,9 +1,14 @@
 import React from "react";
+import ToDoListContainer from "../TODO/ToDoListContainer";
 
 interface IMainProps {}
 
 const Main = () => {
-  return <h1>메인</h1>;
+  return (
+    <>
+      <ToDoListContainer />
+    </>
+  );
 };
 
 export default Main;

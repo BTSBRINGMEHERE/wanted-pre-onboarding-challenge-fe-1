@@ -3,6 +3,23 @@ import { useNavigate } from "react-router-dom";
 import useValidation from "../../lib/hooks/useValidation";
 import useSignup from "../../lib/hooks/useSignup";
 import useSetUserState from "../../lib/hooks/useSetUserState";
+import FormContainer from "../../Components/FormContainer";
+import styled from "styled-components";
+
+const Wrapper = styled.div`
+  display: flex;
+  width: 100vw;
+  height: 80vh;
+  justify-content: center;
+  align-items: center;
+  form {
+    width: 80%;
+  }
+  button {
+    margin: 1rem auto;
+    width: 100%;
+  }
+`;
 
 interface ISignUpProps {}
 
@@ -20,7 +37,7 @@ const SignUp = () => {
     isPassword2,
     onEmailChange,
     onPassword2Change,
-    onPasswordChange,
+    onPasswordChange
   } = useValidation();
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -50,40 +67,55 @@ const SignUp = () => {
   }, [isSuccess]);
 
   return (
-    <form onSubmit={onSubmit}>
-      <label htmlFor="email">이메일</label>
-      <input
-        type="text"
-        id="email"
-        name="email"
-        value={email}
-        onChange={onEmailChange}
-      />
-      {isEmail !== null && !isEmail && <label>올바른 이메일이 아닙니다.</label>}
-      <label htmlFor="password">비밀번호</label>
-      <input
-        type="password"
-        id="password"
-        name="password"
-        value={password}
-        onChange={onPasswordChange}
-      />
-      {isPassword !== null && !isPassword && (
-        <label>비밀번호는 8자 이상이어야합니다.</label>
-      )}
-      <label htmlFor="password2">비밀번호 확인</label>
-      <input
-        type="password"
-        id="password2"
-        name="password2"
-        value={password2}
-        onChange={onPassword2Change}
-      />
-      {isPassword2 !== null && !isPassword2 && (
-        <label>앞에서 입력한 비밀번호와 다릅니다.</label>
-      )}
-      <button disabled={isDisabled}>가입하기</button>
-    </form>
+    <Wrapper>
+      <FormContainer onSubmit={onSubmit}>
+        <FormContainer.Label htmlFor="email">이메일</FormContainer.Label>
+        <FormContainer.Input
+          type="text"
+          id="email"
+          name="email"
+          value={email}
+          onChange={onEmailChange}
+          placeholder="이메일을 입력하세요."
+        />
+        {isEmail !== null && !isEmail && (
+          <FormContainer.Label>올바른 이메일이 아닙니다.</FormContainer.Label>
+        )}
+        <FormContainer.Label htmlFor="password">비밀번호</FormContainer.Label>
+        <FormContainer.Input
+          type="password"
+          id="password"
+          name="password"
+          value={password}
+          onChange={onPasswordChange}
+          placeholder="비밀번호를 입력하세요"
+        />
+        {isPassword !== null && !isPassword && (
+          <FormContainer.Label>
+            비밀번호는 8자 이상이어야합니다.
+          </FormContainer.Label>
+        )}
+        <FormContainer.Label htmlFor="password2">
+          비밀번호 확인
+        </FormContainer.Label>
+        <FormContainer.Input
+          type="password"
+          id="password2"
+          name="password2"
+          value={password2}
+          onChange={onPassword2Change}
+          placeholder="앞에서 입력한 비밀번호를 한 번 더 입력하세요."
+        />
+        {isPassword2 !== null && !isPassword2 && (
+          <FormContainer.Label>
+            앞에서 입력한 비밀번호와 다릅니다.
+          </FormContainer.Label>
+        )}
+        <FormContainer.Button disabled={isDisabled}>
+          가입하기
+        </FormContainer.Button>
+      </FormContainer>
+    </Wrapper>
   );
 };
 

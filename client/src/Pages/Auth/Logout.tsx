@@ -1,6 +1,19 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import useRemoveUserState from "../../lib/hooks/useRemoveUserState";
+
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  h1 {
+    font-size: 3rem;
+    font-weight: 900;
+  }
+`;
 
 interface ILogoutProps {}
 
@@ -19,7 +32,11 @@ const Logout = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  return <h1>다음에 또 만나요!</h1>;
+  return (
+    <Wrapper>
+      <h1>🤣 다음에 또 만나요!</h1>
+    </Wrapper>
+  );
 };
 
 export default Logout;

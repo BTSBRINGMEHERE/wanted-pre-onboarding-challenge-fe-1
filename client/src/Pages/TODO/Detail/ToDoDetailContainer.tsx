@@ -2,11 +2,11 @@ import { useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import FormContainer from "../../Components/FormContainer";
-import useControlTodoForm from "../../lib/hooks/useControlTodoForm";
-import useDeleteTodo from "../../lib/hooks/useDeleteTodo";
-import useGetTodoDetail from "../../lib/hooks/useGetTodoDetail";
-import useUpdateTodo from "../../lib/hooks/useUpdateTodo";
+import FormContainer from "../../../Components/FormContainer";
+import useControlTodoForm from "../../../lib/hooks/useControlTodoForm";
+import useDeleteTodo from "../../../lib/hooks/useDeleteTodo";
+import useGetTodoDetail from "../../../lib/hooks/useGetTodoDetail";
+import useUpdateTodo from "../../../lib/hooks/useUpdateTodo";
 
 const Wrapper = styled.div<{ isUpdate: boolean }>`
   box-sizing: border-box;

@@ -31,10 +31,10 @@ https://user-images.githubusercontent.com/44064122/183724188-9b43a8f6-0418-4d46-
 - 배운 것을 생각해보고 다른 사람들과 [공유하고 있습니다](https://movie42.github.io/blog). 공유를 통해 지식은 개선되고 발전된다고 믿고 있습니다.
 - 혹시 저의 코드를 보시고 채용에 관심이 있으시면 언제든지 연락주세요.
 
-> [이력서](https://movie42.github.io/)
-> email : movie3342@gmail.com
-> github : https://github.com/movie42
-> blog : https://movie42.github.io/blog
+> [이력서](https://movie42.github.io/)  
+> email : movie3342@gmail.com  
+> github : https://github.com/movie42  
+> blog : https://movie42.github.io/blog  
 
 # :: 원티드 프리온보딩 챌린지 프론트엔드 코스 사전과제 안내 & API
 

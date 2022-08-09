@@ -1,12 +1,13 @@
 import { useQueryClient } from "@tanstack/react-query";
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, Outlet, useParams } from "react-router-dom";
 import styled from "styled-components";
 import useDeleteTodo from "../../lib/hooks/useDeleteTodo";
 import useGetLocalDate from "../../lib/hooks/useGetLocalDate";
 
-const Todo = styled.li`
-  border: 1px solid #d2d2d2;
+const Todo = styled.li<{ todoId: boolean }>`
+  border: 1px solid
+    ${({ todoId, theme }) => (todoId ? theme.color.main : "#d2d2d2")};
   border-radius: 0.5rem;
   padding: 1rem;
   margin-bottom: 1rem;
@@ -66,6 +67,7 @@ interface IToDoItemProps {
 }
 
 const ToDoItem = ({ todo }: IToDoItemProps) => {
+  const { todoId } = useParams();
   const { mutate } = useDeleteTodo();
 
   const { handleUTCTimeToLocalTime } = useGetLocalDate();
@@ -79,7 +81,7 @@ const ToDoItem = ({ todo }: IToDoItemProps) => {
   };
 
   return (
-    <Todo data-id={todo.id}>
+    <Todo data-id={todo.id} todoId={todoId === todo.id ? true : false}>
       <Link to={`/${todo.id}`}>
         <Header>
           <h3>{todo.title}</h3>

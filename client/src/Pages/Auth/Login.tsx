@@ -1,8 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import FormContainer from "../../Components/FormContainer";
 import useLogin from "../../lib/hooks/useLogin";
 import useSetUserState from "../../lib/hooks/useSetUserState";
 import useValidation from "../../lib/hooks/useValidation";
+
+const Wrapper = styled.div`
+  margin: 0 auto;
+  width: 80%;
+`;
+
+const Button = styled(FormContainer.Button)`
+  margin-top: 2rem;
+  width: 30%;
+  align-self: flex-end;
+`;
 
 interface ILoginProps {}
 
@@ -16,7 +29,7 @@ const Login = () => {
     isEmail,
     isPassword,
     onEmailChange,
-    onPasswordChange,
+    onPasswordChange
   } = useValidation();
   const { isSuccess, mutate } = useLogin();
 
@@ -29,7 +42,7 @@ const Login = () => {
       onSuccess: ({ message, token }) => {
         setLocalStorage(token);
         setUserState((pre) => ({ ...pre, isLogin: false, token }));
-      },
+      }
     });
   };
 
@@ -53,25 +66,29 @@ const Login = () => {
   }, [isSuccess]);
 
   return (
-    <form onSubmit={onSubmit}>
-      <label htmlFor="email">이메일</label>
-      <input
-        type="text"
-        id="email"
-        name="email"
-        value={email}
-        onChange={onEmailChange}
-      />
-      <label htmlFor="password">비밀번호</label>
-      <input
-        type="password"
-        id="password"
-        name="password"
-        value={password}
-        onChange={onPasswordChange}
-      />
-      <button disabled={isDisabled}>로그인</button>
-    </form>
+    <Wrapper>
+      <FormContainer onSubmit={onSubmit}>
+        <FormContainer.Label htmlFor="email">이메일</FormContainer.Label>
+        <FormContainer.Input
+          type="text"
+          id="email"
+          name="email"
+          value={email}
+          onChange={onEmailChange}
+          placeholder="이메일을 입력해주세요."
+        />
+        <FormContainer.Label htmlFor="password">비밀번호</FormContainer.Label>
+        <FormContainer.Input
+          type="password"
+          id="password"
+          name="password"
+          value={password}
+          onChange={onPasswordChange}
+          placeholder="비밀번호를 입력해주세요."
+        />
+        <Button disabled={isDisabled}>로그인</Button>
+      </FormContainer>
+    </Wrapper>
   );
 };
 

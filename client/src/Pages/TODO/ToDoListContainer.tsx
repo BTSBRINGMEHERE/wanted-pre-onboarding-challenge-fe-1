@@ -35,7 +35,7 @@ const ToDoListContainer = () => {
     content,
     isTitle,
     handleContentChange,
-    handleTitleChange,
+    handleTitleChange
   } = useControlTodoForm();
   const { token } = useRecoilValue(userState);
   const { mutate } = useCreateTodo();
@@ -51,14 +51,14 @@ const ToDoListContainer = () => {
     mutate(
       {
         title,
-        content,
+        content
       },
       {
         onSuccess: () => {
           setTitle("");
           setContent("");
-        },
-      },
+        }
+      }
     );
   };
 

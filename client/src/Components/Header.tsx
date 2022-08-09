@@ -1,7 +1,45 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import styled from "styled-components";
 import { userState } from "../lib/atoms/user";
+
+const Wrapper = styled.header`
+  display: flex;
+  padding: 0.8rem;
+  justify-content: space-between;
+  align-items: center;
+  nav {
+    ul {
+      display: flex;
+      li {
+        &:not(first-child) {
+          margin-left: 0.8rem;
+        }
+        a {
+          font-size: 1.4rem;
+          text-decoration: none;
+          color: ${({ theme }) => theme.color.fontMain};
+          &:hover {
+            color: ${({ theme }) => theme.color.main};
+            font-weight: bolder;
+          }
+        }
+      }
+    }
+  }
+`;
+
+const LogContainer = styled.div`
+  h1 {
+    a {
+      text-decoration: unset;
+      font-size: 1.5rem;
+      font-weight: bolder;
+      color: ${({ theme }) => theme.color.main};
+    }
+  }
+`;
 
 interface IHeaderProps {}
 
@@ -9,19 +47,32 @@ const Header = () => {
   const { isLogin } = useRecoilValue(userState);
 
   return (
-    <header>
-      <div>just do it!</div>
-
+    <Wrapper>
+      <LogContainer>
+        <h1>
+          <Link to={"/"}>just do it!</Link>
+        </h1>
+      </LogContainer>
       <nav>
-        {isLogin && <Link to="/logout">로그아웃</Link>}
-        {!isLogin && (
-          <>
-            <Link to="/auth/login">로그인</Link>
-            <Link to="/auth/signup">회원가입</Link>
-          </>
-        )}
+        <ul>
+          {isLogin && (
+            <li>
+              <Link to="/logout">로그아웃</Link>
+            </li>
+          )}
+          {!isLogin && (
+            <>
+              <li>
+                <Link to="/auth/login">로그인</Link>
+              </li>
+              <li>
+                <Link to="/auth/signup">회원가입</Link>
+              </li>
+            </>
+          )}
+        </ul>
       </nav>
-    </header>
+    </Wrapper>
   );
 };
 

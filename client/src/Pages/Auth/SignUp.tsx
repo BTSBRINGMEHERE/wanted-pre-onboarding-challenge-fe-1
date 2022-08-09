@@ -20,7 +20,7 @@ const SignUp = () => {
     isPassword2,
     onEmailChange,
     onPassword2Change,
-    onPasswordChange
+    onPasswordChange,
   } = useValidation();
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -51,7 +51,7 @@ const SignUp = () => {
 
   return (
     <form onSubmit={onSubmit}>
-      <label id="email">이메일</label>
+      <label htmlFor="email">이메일</label>
       <input
         type="text"
         id="email"
@@ -60,7 +60,7 @@ const SignUp = () => {
         onChange={onEmailChange}
       />
       {isEmail !== null && !isEmail && <label>올바른 이메일이 아닙니다.</label>}
-      <label id="password">비밀번호</label>
+      <label htmlFor="password">비밀번호</label>
       <input
         type="password"
         id="password"
@@ -71,7 +71,7 @@ const SignUp = () => {
       {isPassword !== null && !isPassword && (
         <label>비밀번호는 8자 이상이어야합니다.</label>
       )}
-      <label id="password2">비밀번호 확인</label>
+      <label htmlFor="password2">비밀번호 확인</label>
       <input
         type="password"
         id="password2"

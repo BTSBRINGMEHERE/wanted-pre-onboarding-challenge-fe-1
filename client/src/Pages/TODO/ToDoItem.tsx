@@ -5,13 +5,55 @@ import styled from "styled-components";
 import useDeleteTodo from "../../lib/hooks/useDeleteTodo";
 import useGetLocalDate from "../../lib/hooks/useGetLocalDate";
 
-const Todo = styled.li``;
+const Todo = styled.li`
+  border: 1px solid #d2d2d2;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  a {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: ${({ theme }) => theme.color.fontMain};
+  }
+  &:hover {
+    border: 1px solid ${({ theme }) => theme.color.main};
+  }
+`;
 
-const Header = styled.div``;
+const ControlWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 
-const InfoContinaer = styled.div``;
+const Header = styled.div`
+  margin-bottom: 2rem;
+  h3 {
+    font-size: 1.8rem;
+  }
+`;
 
-const ButtonContainer = styled.div``;
+const InfoContinaer = styled.div`
+  font-size: 1.4rem;
+  color: #d2d2d2;
+`;
+
+const ButtonContainer = styled.div`
+  button {
+    cursor: pointer;
+    font-size: 1.4rem;
+    padding: 0.2rem 0.4rem;
+    border: 1px solid ${({ theme }) => theme.color.main};
+    border-radius: 0.2rem;
+    background-color: unset;
+    color: ${({ theme }) => theme.color.main};
+    &:hover {
+      background-color: ${({ theme }) => theme.color.main};
+      color: ${({ theme }) => theme.color.fontSecond};
+    }
+  }
+`;
 
 interface IToDoItemProps {
   todo: {
@@ -42,12 +84,14 @@ const ToDoItem = ({ todo }: IToDoItemProps) => {
         <Header>
           <h3>{todo.title}</h3>
         </Header>
-        <InfoContinaer>
-          {handleUTCTimeToLocalTime(todo.createdAt)}
-        </InfoContinaer>
-        <ButtonContainer>
-          <button onClick={handleDeleteTodo}>삭제</button>
-        </ButtonContainer>
+        <ControlWrapper>
+          <InfoContinaer>
+            {handleUTCTimeToLocalTime(todo.createdAt)}
+          </InfoContinaer>
+          <ButtonContainer>
+            <button onClick={handleDeleteTodo}>삭제</button>
+          </ButtonContainer>
+        </ControlWrapper>
       </Link>
     </Todo>
   );

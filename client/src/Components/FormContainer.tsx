@@ -1,15 +1,53 @@
 import React from "react";
 import styled from "styled-components";
 
-const Form = styled.form``;
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+`;
 
-const Label = styled.label``;
+const Label = styled.label`
+  font-size: 1.5rem;
+  font-weight: bolder;
+  color: ${({ theme }) => theme.color.fontMain};
+  margin-top: 1rem;
+`;
 
-const Input = styled.input``;
+const Input = styled.input`
+  border: 0;
+  font-size: 1.5rem;
+  padding: 0;
+  margin: 0;
+  outline: unset;
+`;
 
-const Textarea = styled.textarea``;
+const Textarea = styled.textarea`
+  border: 0;
+  font-size: 1.5rem;
+  padding: 0;
+  margin: 0;
+  resize: none;
+  height: 15rem;
+  outline: unset;
+  &::placeholder {
+    font-size: 1.5rem;
+  }
+`;
 
-const Button = styled.button``;
+const Button = styled.button`
+  cursor: pointer;
+  padding: 1rem 1.5rem;
+  border: 1px solid ${({ theme }) => theme.color.main};
+  border-radius: 0.5rem;
+  background-color: unset;
+  font-size: 1.5rem;
+  color: ${({ theme }) => theme.color.main};
+  align-self: flex-end;
+  &:hover {
+    color: ${({ theme }) => theme.color.fontSecond};
+    background-color: ${({ theme }) => theme.color.main};
+  }
+`;
 
 interface IFormContainerProps
   extends React.FormHTMLAttributes<HTMLFormElement> {}
@@ -19,7 +57,7 @@ const FormContainer = ({ ...props }: IFormContainerProps) => {
 };
 
 FormContainer.Label = ({ ...props }) => {
-  return <Label {...props}>{props.childrend}</Label>;
+  return <Label {...props}>{props.children}</Label>;
 };
 
 FormContainer.Input = ({ ...props }) => {

@@ -16,7 +16,7 @@ const Login = () => {
     isEmail,
     isPassword,
     onEmailChange,
-    onPasswordChange
+    onPasswordChange,
   } = useValidation();
   const { isSuccess, mutate } = useLogin();
 
@@ -29,7 +29,7 @@ const Login = () => {
       onSuccess: ({ message, token }) => {
         setLocalStorage(token);
         setUserState((pre) => ({ ...pre, isLogin: false, token }));
-      }
+      },
     });
   };
 
@@ -54,7 +54,7 @@ const Login = () => {
 
   return (
     <form onSubmit={onSubmit}>
-      <label id="email">이메일</label>
+      <label htmlFor="email">이메일</label>
       <input
         type="text"
         id="email"
@@ -62,7 +62,7 @@ const Login = () => {
         value={email}
         onChange={onEmailChange}
       />
-      <label id="password">비밀번호</label>
+      <label htmlFor="password">비밀번호</label>
       <input
         type="password"
         id="password"

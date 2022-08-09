@@ -28,9 +28,9 @@ footer, header, hgroup, menu, nav, section {
 }
 html, body, button, input, textarea, label, select {
 	font-family: "Noto Sans KR", sans-serif;
-	font-size:10px;
+	font-size: 10px;
 	box-sizing: border-box;
-	color:${(props) => props.theme.color.fontMain};
+	color: ${(props) => props.theme.color.fontMain};
 }
 ol, ul {
 	list-style: none;

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import useSetUserState from "./lib/hooks/useSetUserState";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Routers from "./Routes/Routers";
 
 function App() {
@@ -14,7 +15,12 @@ function App() {
     }
   }, []);
 
-  return <Routers />;
+  return (
+    <>
+      <ReactQueryDevtools initialIsOpen={false} />
+      <Routers />
+    </>
+  );
 }
 
 export default App;

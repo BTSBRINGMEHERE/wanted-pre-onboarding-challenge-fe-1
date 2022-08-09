@@ -11,7 +11,7 @@ import { style } from "./lib/styled/style";
 const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+  document.getElementById("root") as HTMLElement,
 );
 
 root.render(
@@ -26,5 +26,5 @@ root.render(
         </BrowserRouter>
       </RecoilRoot>
     </QueryClientProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

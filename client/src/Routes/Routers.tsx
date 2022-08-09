@@ -7,6 +7,7 @@ import Logout from "../Pages/Auth/Logout";
 import PageNotFound from "../Pages/Auth/PageNotFound";
 import SignUp from "../Pages/Auth/SignUp";
 import Main from "../Pages/Main/Main";
+import ToDoDetail from "../Pages/TODO/ToDoDetail";
 
 const Routers = () => {
   const { isLogin } = useRecoilValue(userState);
@@ -14,7 +15,9 @@ const Routers = () => {
     <Routes>
       {isLogin && <Route path="/logout" element={<Logout />} />}
       <Route path="/" element={<MainLayout />}>
-        <Route path="/" element={<Main />} />
+        <Route path="/" element={<Main />}>
+          <Route path=":todoId" element={<ToDoDetail />} />
+        </Route>
         <Route path="auth">
           {!isLogin && (
             <>
@@ -24,6 +27,7 @@ const Routers = () => {
           )}
         </Route>
       </Route>
+
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

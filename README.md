@@ -2,6 +2,10 @@
 
 ## 어플리케이션 동작 예시
 
+
+https://user-images.githubusercontent.com/44064122/183724188-9b43a8f6-0418-4d46-bcad-c7de6a4b20c5.mp4
+
+
 ## 어떻게 설계했나요?
 
 - 서버 API와 통신하는 코드는 useHooks로 작성하여 View와 분리하였습니다.

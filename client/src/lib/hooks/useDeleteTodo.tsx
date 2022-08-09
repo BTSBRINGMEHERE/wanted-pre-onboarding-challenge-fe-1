@@ -1,5 +1,5 @@
 import React from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRecoilValue } from "recoil";
 import { userState } from "../atoms/user";
 
@@ -12,6 +12,7 @@ interface DeleteTodoData {
   data: null;
 }
 const useDeleteTodo = () => {
+  const queryClient = useQueryClient();
   const { token } = useRecoilValue(userState);
   return useMutation<DeleteTodoData, Error, DeleteTodoVariable, unknown>(
     async ({ id }) => {
@@ -25,6 +26,11 @@ const useDeleteTodo = () => {
       const { data } = await response.json();
 
       return data;
+    },
+    {
+      onSuccess: (data) => {
+        queryClient.invalidateQueries(["todoList"]);
+      },
     },
   );
 };

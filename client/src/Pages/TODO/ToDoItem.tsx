@@ -25,21 +25,14 @@ interface IToDoItemProps {
 
 const ToDoItem = ({ todo }: IToDoItemProps) => {
   const { mutate } = useDeleteTodo();
-  const queryClient = useQueryClient();
+
   const { handleUTCTimeToLocalTime } = useGetLocalDate();
 
   const handleDeleteTodo = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const id = e.currentTarget.closest("li")?.dataset.id;
     if (id) {
-      mutate(
-        { id },
-        {
-          onSuccess: (data) => {
-            queryClient.invalidateQueries(["todoList"]);
-          },
-        },
-      );
+      mutate({ id });
     }
   };
 

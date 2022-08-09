@@ -1,32 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect } from "react";
-import { useRecoilValue } from "recoil";
-import { userState } from "../../lib/atoms/user";
+import useGetTodos from "../../lib/hooks/useGetTodos";
 
 interface IToDoListProps {}
 
 const ToDoList = () => {
-  const { token } = useRecoilValue(userState);
-  const { data, isLoading, isSuccess } = useQuery(
-    ["todoList"],
-    async () => {
-      const response = await fetch("http://localhost:8080/todos", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token
-        }
-      });
-      return response.json();
-    },
-    {
-      onSuccess: (data) => {
-        console.log(data);
-      }
-    }
-  );
+  const { data: todos, isLoading, isSuccess } = useGetTodos();
 
-  return <div>ToDoList</div>;
+  return isLoading ? (
+    <h1>할 일 불러오는 중</h1>
+  ) : (
+    <div>
+      <ul>
+        {todos?.map((todo) => (
+          <li>{todo.title}</li>
+        ))}
+      </ul>
+    </div>
+  );
 };
 
 export default ToDoList;

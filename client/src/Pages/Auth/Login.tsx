@@ -7,14 +7,21 @@ import useSetUserState from "../../lib/hooks/useSetUserState";
 import useValidation from "../../lib/hooks/useValidation";
 
 const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 80vh;
   margin: 0 auto;
-  width: 80%;
+  form {
+    width: 80%;
+  }
 `;
 
 const Button = styled(FormContainer.Button)`
-  margin-top: 2rem;
-  width: 30%;
-  align-self: flex-end;
+  width: 100%;
+  margin: 1rem auto;
 `;
 
 interface ILoginProps {}
@@ -60,7 +67,7 @@ const Login = () => {
       timer = setTimeout(() => {
         setUserState((pre) => ({ ...pre, isLogin: true }));
         navigate("/");
-      }, 3000);
+      }, 500);
     }
     return () => clearTimeout(timer);
   }, [isSuccess]);

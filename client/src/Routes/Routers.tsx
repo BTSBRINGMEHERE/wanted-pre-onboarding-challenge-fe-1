@@ -7,7 +7,7 @@ import Logout from "../Pages/Auth/Logout";
 import PageNotFound from "../Pages/Auth/PageNotFound";
 import SignUp from "../Pages/Auth/SignUp";
 import Main from "../Pages/Main/Main";
-import ToDoDetail from "../Pages/TODO/ToDoDetail";
+import ToDoDetail from "../Pages/TODO/Detail/ToDoDetailContainer";
 
 const Routers = () => {
   const { isLogin } = useRecoilValue(userState);

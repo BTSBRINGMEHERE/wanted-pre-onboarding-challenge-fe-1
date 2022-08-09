@@ -28,8 +28,7 @@ const Login = () => {
     mutate(body, {
       onSuccess: ({ message, token }) => {
         setLocalStorage(token);
-        setUserState({ isLogin: true, token });
-        navigate("/");
+        setUserState((pre) => ({ ...pre, isLogin: false, token }));
       }
     });
   };
@@ -41,6 +40,17 @@ const Login = () => {
       setIsDisabled(true);
     }
   }, [isEmail, isPassword]);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (isSuccess) {
+      timer = setTimeout(() => {
+        setUserState((pre) => ({ ...pre, isLogin: true }));
+        navigate("/");
+      }, 3000);
+    }
+    return () => clearTimeout(timer);
+  }, [isSuccess]);
 
   return (
     <form onSubmit={onSubmit}>

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import useGetTodos from "../../lib/hooks/useGetTodos";
+import SkeletonForTodoListItem from "./Skeleton/SkeletonForTodoListItem";
 import ToDoItem from "./ToDoItem";
 
 const Wrapper = styled.div`
@@ -9,9 +10,18 @@ const Wrapper = styled.div`
 `;
 
 const ToDoList = () => {
+  const [isSkeleton, setIsSkeleton] = useState(true);
   const { data: todos, isLoading, isSuccess, isRefetching } = useGetTodos();
 
-  return isSuccess ? (
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (!isLoading && !isRefetching) {
+      timer = setTimeout(() => setIsSkeleton(false), 1000);
+    }
+    return () => clearTimeout(timer);
+  }, [isLoading, isRefetching]);
+
+  return !isSkeleton ? (
     <Wrapper>
       <ul>
         {todos?.map((todo) => (
@@ -20,7 +30,16 @@ const ToDoList = () => {
       </ul>
     </Wrapper>
   ) : (
-    <h1>할 일 불러오는 중</h1>
+    <Wrapper>
+      <ul>
+        <SkeletonForTodoListItem />
+        <SkeletonForTodoListItem />
+        <SkeletonForTodoListItem />
+        <SkeletonForTodoListItem />
+        <SkeletonForTodoListItem />
+        <SkeletonForTodoListItem />
+      </ul>
+    </Wrapper>
   );
 };
 

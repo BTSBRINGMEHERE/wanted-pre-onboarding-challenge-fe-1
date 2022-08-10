@@ -16,8 +16,7 @@ const useFetch = <T extends unknown>(baseUrl: string) => {
       },
     });
 
-    const { data } = await response.json();
-    return data;
+    return await response.json();
   };
 
   const putData = async (subUrl: string, body: T) => {
@@ -32,9 +31,7 @@ const useFetch = <T extends unknown>(baseUrl: string) => {
       body: JSON.stringify(body),
     });
 
-    const { data } = await response.json();
-
-    return data;
+    return await response.json();
   };
 
   const postData = async (subUrl: string, body: T) => {
@@ -49,9 +46,7 @@ const useFetch = <T extends unknown>(baseUrl: string) => {
       body: JSON.stringify(body),
     });
 
-    const { data } = await response.json();
-
-    return data;
+    return await response.json();
   };
 
   const deleteData = async (subUrl: string) => {
@@ -63,8 +58,7 @@ const useFetch = <T extends unknown>(baseUrl: string) => {
         Authorization: token,
       },
     });
-    const { data } = await response.json();
-    return data;
+    return await response.json();
   };
 
   return { getData, putData, postData, deleteData };

@@ -13,11 +13,27 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   form {
+    ${({ theme }) => theme.mixin.form()}
     width: 80%;
   }
+  label {
+    ${({ theme }) => theme.mixin.label(theme)}
+  }
+  input {
+    ${({ theme }) => theme.mixin.input()}
+  }
+  textarea {
+    ${({ theme }) => theme.mixin.textarea()}
+  }
   button {
+    ${({ theme }) => theme.mixin.button(theme)}
     margin: 1rem auto;
     width: 100%;
+    &:hover {
+      color: ${({ theme }) => theme.color.fontSecond};
+      border: 1px solid ${({ theme }) => theme.color.main};
+      background-color: ${({ theme }) => theme.color.main};
+    }
   }
 `;
 

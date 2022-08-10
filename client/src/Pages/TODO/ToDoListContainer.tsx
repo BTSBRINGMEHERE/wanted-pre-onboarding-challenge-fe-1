@@ -20,6 +20,21 @@ const FormWrapper = styled.div`
   padding: 1rem;
   border: 1px solid ${({ theme }) => theme.color.main};
   border-radius: 0.5rem;
+  form {
+    ${({ theme }) => theme.mixin.form()}
+  }
+  label {
+    ${({ theme }) => theme.mixin.label(theme)}
+  }
+  textarea {
+    ${({ theme }) => theme.mixin.textarea()}
+  }
+  input {
+    ${({ theme }) => theme.mixin.input()}
+  }
+  button {
+    ${({ theme }) => theme.mixin.button(theme)}
+  }
 `;
 
 const TodolistWrapper = styled.div`
@@ -28,20 +43,20 @@ const TodolistWrapper = styled.div`
 
 const ToDoListContainer = () => {
   const {
-    setIsTitle,
     setTitle,
     setContent,
     title,
     content,
-    isTitle,
     handleContentChange,
     handleTitleChange
   } = useControlTodoForm();
+  const [isTitle, setIsTitle] = useState<null | boolean>(null);
   const { token } = useRecoilValue(userState);
   const { mutate } = useCreateTodo();
 
   const handleTodo = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (title === "") {
       setIsTitle(false);
       return;

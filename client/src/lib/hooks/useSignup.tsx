@@ -15,8 +15,11 @@ interface SignupVariable {
 const useSignup = () => {
   const { postData } = useFetch(api.baseUrl);
 
-  return useMutation<SignupData, Error, SignupVariable, unknown>((body) =>
-    postData("/users/create", body),
+  return useMutation<SignupData, Error, SignupVariable, unknown>(
+    async (body) => {
+      const { data } = await postData("/users/create", body);
+      return data;
+    },
   );
 };
 

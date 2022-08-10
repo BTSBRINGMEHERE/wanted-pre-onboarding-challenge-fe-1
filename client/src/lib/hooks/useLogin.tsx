@@ -16,8 +16,8 @@ interface LoginVariable {
 const useLogin = () => {
   const { postData } = useFetch(api.baseUrl);
 
-  return useMutation<LoginData, Error, LoginVariable, unknown>((body) =>
-    postData(`/users/login`, body),
+  return useMutation<LoginData, Error, LoginVariable, unknown>(
+    async (body) => await postData(`/users/login`, body),
   );
 };
 export default useLogin;

@@ -14,7 +14,10 @@ const useDeleteTodo = () => {
   const { deleteData } = useFetch(api.baseUrl);
 
   return useMutation<DeleteTodoData, Error, DeleteTodoVariable, unknown>(
-    ({ id }) => deleteData(`/todos/${id}`),
+    async ({ id }) => {
+      const { data } = await deleteData(`/todos/${id}`);
+      return data;
+    },
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["todoList"]);

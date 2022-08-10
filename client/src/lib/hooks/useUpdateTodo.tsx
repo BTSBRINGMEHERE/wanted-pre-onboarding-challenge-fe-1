@@ -22,7 +22,10 @@ const useUpdateTodo = () => {
   const { putData } = useFetch(api.baseUrl);
 
   return useMutation<UpdateTodoData, Error, UpdateTodoVariable, unknown>(
-    async ({ id, body }) => putData(`/todos/${id}`, body),
+    async ({ id, body }) => {
+      const { data } = await putData(`/todos/${id}`, body);
+      return data;
+    },
     {
       onSuccess: (data) => {
         queryClient.invalidateQueries(["todoList"]);

@@ -36,7 +36,7 @@ const Login = () => {
     isEmail,
     isPassword,
     onEmailChange,
-    onPasswordChange
+    onPasswordChange,
   } = useValidation();
   const { isSuccess, mutate } = useLogin();
 
@@ -46,10 +46,10 @@ const Login = () => {
     const body = { email, password };
 
     mutate(body, {
-      onSuccess: ({ message, token }) => {
+      onSuccess: ({ token }) => {
         setLocalStorage(token);
         setUserState((pre) => ({ ...pre, isLogin: false, token }));
-      }
+      },
     });
   };
 

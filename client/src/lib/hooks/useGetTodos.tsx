@@ -14,10 +14,10 @@ interface GetTodosVariables {
 const useGetTodos = () => {
   const { getData } = useFetch(api.baseUrl);
 
-  return useQuery<GetTodosVariables[], Error>(
-    ["todoList"],
-    async () => await getData("/todos"),
-  );
+  return useQuery<GetTodosVariables[], Error>(["todoList"], async () => {
+    const { data } = await getData("/todos");
+    return data;
+  });
 };
 
 export default useGetTodos;

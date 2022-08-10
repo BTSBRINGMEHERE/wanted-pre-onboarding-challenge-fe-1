@@ -28,20 +28,20 @@ const TodolistWrapper = styled.div`
 
 const ToDoListContainer = () => {
   const {
-    setIsTitle,
     setTitle,
     setContent,
     title,
     content,
-    isTitle,
     handleContentChange,
     handleTitleChange
   } = useControlTodoForm();
+  const [isTitle, setIsTitle] = useState<null | boolean>(null);
   const { token } = useRecoilValue(userState);
   const { mutate } = useCreateTodo();
 
   const handleTodo = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (title === "") {
       setIsTitle(false);
       return;

@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useRecoilValue } from "recoil";
-import { userState } from "../atoms/user";
+import useFetch from "./useFetch";
+import { api } from "../http/api";
 
 interface TodoDetailData {
   title: string;
@@ -16,20 +16,11 @@ interface TodoDetailVariable {
 }
 
 const useGetTodoDetail = ({ id }: TodoDetailVariable) => {
-  const { token } = useRecoilValue(userState);
+  const { getData } = useFetch(api.baseUrl);
 
-  return useQuery<TodoDetailData, Error>(["todo", id], async ({ queryKey }) => {
-    const response = await fetch(`http://localhost:8080/todos/${queryKey[1]}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-    });
-
-    const { data } = await response.json();
-    return data;
-  });
+  return useQuery<TodoDetailData, Error>(["todo", id], () =>
+    getData(`/todos/${id}`),
+  );
 };
 
 export default useGetTodoDetail;

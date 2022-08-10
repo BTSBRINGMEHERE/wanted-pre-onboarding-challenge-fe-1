@@ -1,5 +1,7 @@
 import React from "react";
 import { useMutation } from "@tanstack/react-query";
+import useFetch from "./useFetch";
+import { api } from "../http/api";
 
 interface LoginData {
   message: string;
@@ -12,15 +14,10 @@ interface LoginVariable {
 }
 
 const useLogin = () => {
-  return useMutation<LoginData, Error, LoginVariable, unknown>(async (body) => {
-    const response = await fetch("http://localhost:8080/users/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(body)
-    });
-    return response.json();
-  });
+  const { postData } = useFetch(api.baseUrl);
+
+  return useMutation<LoginData, Error, LoginVariable, unknown>((body) =>
+    postData(`/users/login`, body),
+  );
 };
 export default useLogin;

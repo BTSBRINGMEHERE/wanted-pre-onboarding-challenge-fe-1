@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import React, { useEffect } from "react";
-import { Link, Outlet, useParams } from "react-router-dom";
+import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import useDeleteTodo from "../../lib/hooks/useDeleteTodo";
 import useGetLocalDate from "../../lib/hooks/useGetLocalDate";
@@ -67,6 +67,7 @@ interface IToDoItemProps {
 }
 
 const ToDoItem = ({ todo }: IToDoItemProps) => {
+  const navigate = useNavigate();
   const { todoId } = useParams();
   const { mutate } = useDeleteTodo();
 
@@ -76,7 +77,14 @@ const ToDoItem = ({ todo }: IToDoItemProps) => {
     e.preventDefault();
     const id = e.currentTarget.closest("li")?.dataset.id;
     if (id) {
-      mutate({ id });
+      mutate(
+        { id },
+        {
+          onSuccess: () => {
+            navigate("/");
+          },
+        },
+      );
     }
   };
 

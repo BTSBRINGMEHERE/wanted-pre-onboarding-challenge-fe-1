@@ -1,0 +1,34 @@
+{
+  "todos": [
+    {
+      "title": "리펙토링 : 서버와 관련된 코드 부터 적용하기 적용됐나요?",
+      "content": "서버 통신부터 적용해보기",
+      "id": "JkWeSlSqjTL2BYekvT90Q",
+      "createdAt": "2022-08-10T00:19:48.811Z",
+      "updatedAt": "2022-08-10T00:19:48.811Z"
+    }
+  ],
+  "users": [
+    {
+      "email": "user@gmail.com",
+      "password": "123qwe!@",
+      "id": "jqCVzmdmPhjGPl_Wim8ST",
+      "createdAt": "2022-08-08T09:05:16.821Z",
+      "updatedAt": "2022-08-08T09:05:16.821Z"
+    },
+    {
+      "email": "admin@google.com",
+      "password": "123qwe!@",
+      "id": "fR47owsxd-30ddoGaPqRP",
+      "createdAt": "2022-08-08T09:08:18.745Z",
+      "updatedAt": "2022-08-08T09:08:18.745Z"
+    },
+    {
+      "email": "admin@gmail.com",
+      "password": "123qwe!@",
+      "id": "d9YMk-SzgpPVSEoAxTWiW",
+      "createdAt": "2022-08-08T09:19:49.615Z",
+      "updatedAt": "2022-08-08T09:19:49.615Z"
+    }
+  ]
+}

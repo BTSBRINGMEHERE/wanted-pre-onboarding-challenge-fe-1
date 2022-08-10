@@ -118,6 +118,9 @@ const useLogin = () => {
 };
 ```
 
+> 참고한 글
+> [리액트 컴포넌트를 타입스크립트 제네릭 함수처럼 쓰기](https://ui.toast.com/weekly-pick/ko_20210505)
+
 ## 어플리케이션 동작 예시
 
 https://user-images.githubusercontent.com/44064122/183724188-9b43a8f6-0418-4d46-bcad-c7de6a4b20c5.mp4

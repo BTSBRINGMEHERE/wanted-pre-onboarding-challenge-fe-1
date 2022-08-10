@@ -1,9 +1,7 @@
 import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRecoilValue } from "recoil";
-import { userState } from "../atoms/user";
-
-interface IuseDeleteTodoProps {}
+import useFetch from "./useFetch";
+import { api } from "../http/api";
 
 interface DeleteTodoVariable {
   id: string;
@@ -13,22 +11,12 @@ interface DeleteTodoData {
 }
 const useDeleteTodo = () => {
   const queryClient = useQueryClient();
-  const { token } = useRecoilValue(userState);
+  const { deleteData } = useFetch(api.baseUrl);
+
   return useMutation<DeleteTodoData, Error, DeleteTodoVariable, unknown>(
-    async ({ id }) => {
-      const response = await fetch(`http://localhost:8080/todos/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: token,
-        },
-      });
-
-      const { data } = await response.json();
-
-      return data;
-    },
+    ({ id }) => deleteData(`/todos/${id}`),
     {
-      onSuccess: (data) => {
+      onSuccess: () => {
         queryClient.invalidateQueries(["todoList"]);
       },
     },

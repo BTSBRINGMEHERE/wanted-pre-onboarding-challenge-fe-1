@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useRecoilValue } from "recoil";
-import { userState } from "../../lib/atoms/user";
+import useFetch from "./useFetch";
+import { api } from "../http/api";
 
 interface GetTodosVariables {
   title: string;
@@ -12,21 +12,12 @@ interface GetTodosVariables {
 }
 
 const useGetTodos = () => {
-  const { token } = useRecoilValue(userState);
+  const { getData } = useFetch(api.baseUrl);
 
-  return useQuery<GetTodosVariables[], Error>(["todoList"], async () => {
-    const response = await fetch("http://localhost:8080/todos", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-    });
-
-    const { data } = await response.json();
-
-    return data;
-  });
+  return useQuery<GetTodosVariables[], Error>(
+    ["todoList"],
+    async () => await getData("/todos"),
+  );
 };
 
 export default useGetTodos;

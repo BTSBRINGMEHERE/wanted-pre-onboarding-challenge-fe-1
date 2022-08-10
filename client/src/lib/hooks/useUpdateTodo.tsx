@@ -1,9 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import React from "react";
-import { useRecoilValue } from "recoil";
-import { userState } from "../atoms/user";
-
-interface IuseUpdateTodoProps {}
+import { api } from "../http/api";
+import useFetch from "./useFetch";
 
 interface UpdateTodoVariable {
   id: string;
@@ -22,28 +19,16 @@ interface UpdateTodoData {
 }
 const useUpdateTodo = () => {
   const queryClient = useQueryClient();
-  const { token } = useRecoilValue(userState);
+  const { putData } = useFetch(api.baseUrl);
 
   return useMutation<UpdateTodoData, Error, UpdateTodoVariable, unknown>(
-    async ({ id, body }) => {
-      const response = await fetch(`http://localhost:8080/todos/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token
-        },
-        body: JSON.stringify(body)
-      });
-
-      const { data } = await response.json();
-
-      return data;
-    },
+    async ({ id, body }) => putData(`/todos/${id}`, body),
     {
       onSuccess: (data) => {
+        queryClient.invalidateQueries(["todoList"]);
         queryClient.invalidateQueries(["todo", data.id]);
-      }
-    }
+      },
+    },
   );
 };
 

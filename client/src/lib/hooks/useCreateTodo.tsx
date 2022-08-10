@@ -1,38 +1,29 @@
 import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRecoilValue } from "recoil";
-import { userState } from "../atoms/user";
+import useFetch from "./useFetch";
+import { api } from "../http/api";
 
 interface IuseCreateTodoProps {}
 
-const useCreateTodo = () => {
-  const queryClient = useQueryClient();
-  const { token } = useRecoilValue(userState);
+interface CreateTodoData {
+  title: string;
+  content: string;
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
-  return useMutation<
-    {
-      data: {
-        title: string;
-        content: string;
-        id: string;
-        createdAt: string;
-        updatedAt: string;
-      };
-    },
-    Error,
-    { title: string; content: string }
-  >(
-    async (body) => {
-      const response = await fetch("http://localhost:8080/todos", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-        body: JSON.stringify(body),
-      });
-      return response.json();
-    },
+interface CreateTodoVariable {
+  title: string;
+  content: string;
+}
+
+const useCreateTodo = () => {
+  const { postData } = useFetch<CreateTodoVariable>(api.baseUrl);
+  const queryClient = useQueryClient();
+
+  return useMutation<CreateTodoData, Error, CreateTodoVariable, unknown>(
+    (body) => postData("/todos", body),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["todoList"]);

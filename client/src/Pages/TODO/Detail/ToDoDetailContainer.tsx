@@ -24,6 +24,20 @@ const Wrapper = styled.div<{ isUpdate: boolean }>`
   z-index: 3;
   color: ${({ isUpdate, theme }) =>
     isUpdate ? theme.color.fontSecond : theme.color.fontMain};
+  form {
+    ${({ theme }) => theme.mixin.form()}
+  }
+  input {
+    ${({ theme }) => theme.mixin.input()}
+  }
+  label {
+    ${({ theme }) => theme.mixin.label(theme)}
+  }
+  textarea {
+    ${({ theme }) => theme.mixin.textarea()}
+    height: 24rem;
+    margin-bottom: 1rem;
+  }
   input,
   textarea {
     box-sizing: border-box;
@@ -33,11 +47,6 @@ const Wrapper = styled.div<{ isUpdate: boolean }>`
     background-color: unset;
     border-bottom: 1px solid #fff;
   }
-  textarea {
-    height: 24rem;
-    margin-bottom: 1rem;
-  }
-
   h4 {
     font-size: 2rem;
     font-weight: bolder;

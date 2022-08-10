@@ -20,6 +20,21 @@ const FormWrapper = styled.div`
   padding: 1rem;
   border: 1px solid ${({ theme }) => theme.color.main};
   border-radius: 0.5rem;
+  form {
+    ${({ theme }) => theme.mixin.form()}
+  }
+  label {
+    ${({ theme }) => theme.mixin.label(theme)}
+  }
+  textarea {
+    ${({ theme }) => theme.mixin.textarea()}
+  }
+  input {
+    ${({ theme }) => theme.mixin.input()}
+  }
+  button {
+    ${({ theme }) => theme.mixin.button(theme)}
+  }
 `;
 
 const TodolistWrapper = styled.div`

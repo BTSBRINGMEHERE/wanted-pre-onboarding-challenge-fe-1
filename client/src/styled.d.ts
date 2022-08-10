@@ -5,8 +5,17 @@ declare module "styled-components" {
     color: {
       main: string;
       second: string;
+      gray: string;
       fontMain: string;
       fontSecond: string;
+    };
+
+    mixin: {
+      form: () => string;
+      label: (theme: DefaultTheme) => string;
+      input: () => string;
+      button: (theme: DefaultTheme) => string;
+      textarea: () => string;
     };
   }
 }

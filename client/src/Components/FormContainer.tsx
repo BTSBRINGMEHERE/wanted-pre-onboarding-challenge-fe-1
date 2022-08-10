@@ -1,74 +1,48 @@
 import React from "react";
 import styled from "styled-components";
 
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-`;
+const Form = styled.form``;
 
-const Label = styled.label`
-  font-size: 1.5rem;
-  font-weight: bolder;
-  color: ${({ theme }) => theme.color.fontMain};
-  margin-top: 1rem;
-`;
+const Label = styled.label``;
 
-const Input = styled.input`
-  border: 0;
-  font-size: 1.5rem;
-  padding: 0;
-  margin: 0;
-  outline: unset;
-`;
+const Input = styled.input``;
 
-const Textarea = styled.textarea`
-  border: 0;
-  font-size: 1.5rem;
-  padding: 0;
-  margin: 0;
-  resize: none;
-  height: 15rem;
-  outline: unset;
-  &::placeholder {
-    font-size: 1.5rem;
-  }
-`;
+const Textarea = styled.textarea``;
 
-const Button = styled.button`
-  cursor: pointer;
-  padding: 1rem 1.5rem;
-  border: 1px solid ${({ theme }) => theme.color.main};
-  border-radius: 0.5rem;
-  background-color: unset;
-  font-size: 1.5rem;
-  color: ${({ theme }) => theme.color.main};
-  align-self: flex-end;
-  &:hover {
-    color: ${({ theme }) => theme.color.fontSecond};
-    background-color: ${({ theme }) => theme.color.main};
-  }
-`;
+const Button = styled.button``;
 
 interface IFormContainerProps
   extends React.FormHTMLAttributes<HTMLFormElement> {}
+
+interface ILabelContainerProps
+  extends React.LabelHTMLAttributes<HTMLLabelElement> {}
+
+interface IInputContainerProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {}
+
+interface ITextareaContainerProps
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
+
+interface IButtonContainerProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 const FormContainer = ({ ...props }: IFormContainerProps) => {
   return <Form {...props}>{props.children}</Form>;
 };
 
-FormContainer.Label = ({ ...props }) => {
+FormContainer.Label = ({ ...props }: ILabelContainerProps) => {
   return <Label {...props}>{props.children}</Label>;
 };
 
-FormContainer.Input = ({ ...props }) => {
+FormContainer.Input = ({ ...props }: IInputContainerProps) => {
   return <Input {...props} />;
 };
 
-FormContainer.Textarea = ({ ...props }) => {
+FormContainer.Textarea = ({ ...props }: ITextareaContainerProps) => {
   return <Textarea {...props}>{props.children}</Textarea>;
 };
 
-FormContainer.Button = ({ ...props }) => {
+FormContainer.Button = ({ ...props }: IButtonContainerProps) => {
   return <Button {...props}>{props.children}</Button>;
 };
 

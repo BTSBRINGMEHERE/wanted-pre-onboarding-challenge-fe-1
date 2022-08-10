@@ -15,13 +15,26 @@ const Wrapper = styled.div`
   height: 80vh;
   margin: 0 auto;
   form {
+    ${({ theme }) => theme.mixin.form()}
     width: 80%;
+  }
+  input {
+    ${({ theme }) => theme.mixin.input()}
+  }
+  label {
+    ${({ theme }) => theme.mixin.label(theme)}
   }
 `;
 
 const Button = styled(FormContainer.Button)`
+  ${({ theme }) => theme.mixin.button(theme)};
   width: 100%;
   margin: 1rem auto;
+  &:hover {
+    color: ${({ theme }) => theme.color.fontSecond};
+    border: 1px solid ${({ theme }) => theme.color.main};
+    background-color: ${({ theme }) => theme.color.main};
+  }
 `;
 
 interface ILoginProps {}
@@ -36,7 +49,7 @@ const Login = () => {
     isEmail,
     isPassword,
     onEmailChange,
-    onPasswordChange,
+    onPasswordChange
   } = useValidation();
   const { isSuccess, mutate } = useLogin();
 
@@ -49,7 +62,7 @@ const Login = () => {
       onSuccess: ({ token }) => {
         setLocalStorage(token);
         setUserState((pre) => ({ ...pre, isLogin: false, token }));
-      },
+      }
     });
   };
 

@@ -5,6 +5,7 @@
     - ["적절히 추상화 되지 않은 함수와 컴포넌트" 적용해보기](#적절히-추상화-되지-않은-함수와-컴포넌트-적용해보기)
       - [useFetch를 만들어서 비동기 통신 코드 중복 줄이기](#usefetch를-만들어서-비동기-통신-코드-중복-줄이기)
       - [useCotrolTodoForm에서 form 검증 코드 제거하기](#usecotroltodoform에서-form-검증-코드-제거하기)
+      - [FormContainer에 Headless UI 개념 적용해보기](#formcontainer에-headless-ui-개념-적용해보기)
   - [어플리케이션 동작 예시](#어플리케이션-동작-예시)
   - [어떻게 설계했나요?](#어떻게-설계했나요)
   - [어플리케이션을 만들면서 궁금했고 앞으로 개선하고 싶은 부분](#어플리케이션을-만들면서-궁금했고-앞으로-개선하고-싶은-부분)
@@ -160,6 +161,12 @@ const useControlTodoForm = () => {
 
 export default useControlTodoForm;
 ```
+
+#### FormContainer에 Headless UI 개념 적용해보기
+
+[FormContainer](./client/src/Components/FormContainer.tsx)는 Form 요소를 담고 있는 컴포넌트입니다. form, label, input등의 컴포넌트는 HTMLAttribute를 상속받고 있습니다. 하지만 styled-componets를 적용하면서 기본 스타일이 적용되게 되었습니다.
+
+사실 stlyed-componets는 기존 컴포넌트를 상속 받아 새로운 스타일을 덮어쓸 수 있기 때문에 굳이 스타일을 제거할 필요는 없습니다. 하지만 Headless UI의 개념을 적용해보기 위해서 기능만 남겨 놓았습니다. 스타일은 [mixin](./client/src/lib/styled/style.ts)으로 기본적인 사항을 적용합니다. 나머지 세부 스타일은 styled-components로 제어합니다.
 
 ## 어플리케이션 동작 예시
 

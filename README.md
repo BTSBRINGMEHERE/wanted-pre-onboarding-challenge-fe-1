@@ -4,6 +4,7 @@
   - [Refactoring](#refactoring)
     - ["적절히 추상화 되지 않은 함수와 컴포넌트" 적용해보기](#적절히-추상화-되지-않은-함수와-컴포넌트-적용해보기)
       - [useFetch를 만들어서 비동기 통신 코드 중복 줄이기](#usefetch를-만들어서-비동기-통신-코드-중복-줄이기)
+      - [useCotrolTodoForm에서 form 검증 코드 제거하기](#usecotroltodoform에서-form-검증-코드-제거하기)
   - [어플리케이션 동작 예시](#어플리케이션-동작-예시)
   - [어떻게 설계했나요?](#어떻게-설계했나요)
   - [어플리케이션을 만들면서 궁금했고 앞으로 개선하고 싶은 부분](#어플리케이션을-만들면서-궁금했고-앞으로-개선하고-싶은-부분)
@@ -23,9 +24,9 @@
   const response = await fetch("http://localhost:8080/users/login", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json"
     },
-    body: JSON.stringify(body),
+    body: JSON.stringify(body)
   });
   return response.json();
 };
@@ -46,8 +47,8 @@ const useFetch = <T extends unknown>(baseUrl: string) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: token,
-      },
+        Authorization: token
+      }
     });
 
     const { data } = await response.json();
@@ -61,9 +62,9 @@ const useFetch = <T extends unknown>(baseUrl: string) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: token,
+        Authorization: token
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify(body)
     });
 
     const { data } = await response.json();
@@ -78,9 +79,9 @@ const useFetch = <T extends unknown>(baseUrl: string) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: token,
+        Authorization: token
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify(body)
     });
 
     const { data } = await response.json();
@@ -94,8 +95,8 @@ const useFetch = <T extends unknown>(baseUrl: string) => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Authorization: token,
-      },
+        Authorization: token
+      }
     });
     const { data } = await response.json();
     return data;
@@ -113,13 +114,52 @@ const useLogin = () => {
 
   return useMutation<LoginData, Error, LoginVariable, unknown>(
     // 이 부분이 변경되었습니다.ㄴ
-    (body) => postData(`/users/login`, body),
+    (body) => postData(`/users/login`, body)
   );
 };
 ```
 
 > 참고한 글
 > [리액트 컴포넌트를 타입스크립트 제네릭 함수처럼 쓰기](https://ui.toast.com/weekly-pick/ko_20210505)
+
+#### useCotrolTodoForm에서 form 검증 코드 제거하기
+
+useControlTodoForm은 contorled form을 제어하기 위한 커스텀 훅입니다. 하지만 isTitle, setIsTitle은 맥락상 무엇을 위한 상태인지를 알기 어렵습니다. 또한 contorled form을 제어하기 위한 목적에서 벗어난 듯 보입니다. 따라서 단일 책임 원칙을 적용하여 해당 부분을 삭제하였습니다.
+
+```typescript
+// 삭제
+
+const useControlTodoForm = () => {
+  /* 삭제
+  const [isTitle, setIsTitle] = useState<null | boolean>(null); 
+  */
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.currentTarget.value);
+  };
+
+  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setContent(e.currentTarget.value);
+  };
+
+  return {
+    /*삭제
+    isTitle,
+    setIsTitle,
+    */
+    title,
+    setTitle,
+    content,
+    setContent,
+    handleTitleChange,
+    handleContentChange
+  };
+};
+
+export default useControlTodoForm;
+```
 
 ## 어플리케이션 동작 예시
 

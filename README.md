@@ -20,12 +20,19 @@
 
 #### 스켈레톤 컴포넌트 적용하기
 
+https://user-images.githubusercontent.com/44064122/183937833-0f55f0e0-c274-47ff-ba67-64c0bbdd0f3b.mov
+
 로딩 화면을 보여주기 위해 스켈레톤 컴포넌트를 만들어 적용하였습니다. React-Query를 사용할 때, 서버 상태를 isLoading, isRefetching, isSuccess에 의존해서 판단합니다. 보통 isLoading, isRefetching이 true이면 로딩 화면이나 스켈레톤을 보여줍니다. 스켈레톤 컴포넌트는 아래의 아티클을 보고 만들었습니다.
 
 > 참고 한 글  
 > [더 나은 UX를 위한 React에서 스켈레톤 컴포넌트 만들기](https://ui.toast.com/weekly-pick/ko_20201110)
 
-하지만 문제가 있습니다. 서버 응답이 빠르면 스켈레톤 UI가 그냥 깜박입니다. 이런 깜박임은 사용자에게 좋지 않은 경험을 주는 것 같습니다. 차라리 서버의 응답이 빠르면 스켈레톤을 동작시키지 않거나 최소 1회는 보이도록 변경하는게 좋다고 생각했습니다. 이 문제를 해결하기 위해서 저는 isSkeleton이라는 상태를 만들고 isLoading, isRefetching이 빠르게 false로 변경되더라도 최소 1회는 동작하도록 코드를 작성하였습니다.
+
+하지만 문제가 있습니다. 서버 응답이 빠르면 스켈레톤 UI가 그냥 깜박입니다. 이런 깜박임은 사용자에게 좋지 않은 경험을 주는 것 같습니다. 
+
+https://user-images.githubusercontent.com/44064122/183937885-72d16362-086b-477c-b508-9e2cfb350456.mov
+
+차라리 서버의 응답이 빠르면 스켈레톤을 동작시키지 않거나 최소 1회는 보이도록 변경하는게 좋다고 생각했습니다. 이 문제를 해결하기 위해서 저는 isSkeleton이라는 상태를 만들고 isLoading, isRefetching이 빠르게 false로 변경되더라도 최소 1회는 동작하도록 코드를 작성하였습니다.
 
 ```typescript
 const ToDoList = () => {

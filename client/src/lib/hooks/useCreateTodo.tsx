@@ -2,6 +2,8 @@ import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useFetch from "./useFetch";
 import { api } from "../http/api";
+import { useSetRecoilState } from "recoil";
+import { snackbarState } from "../atoms/snackbar";
 
 interface IuseCreateTodoProps {}
 
@@ -19,6 +21,7 @@ interface CreateTodoVariable {
 }
 
 const useCreateTodo = () => {
+  const setSnackbarQueue = useSetRecoilState(snackbarState);
   const { postData } = useFetch<CreateTodoVariable>(api.baseUrl);
   const queryClient = useQueryClient();
 
@@ -27,8 +30,16 @@ const useCreateTodo = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["todoList"]);
-      },
-    },
+        setSnackbarQueue((pre) => [
+          ...pre,
+          {
+            id: Date.now().toString(),
+            message: "✅ 할 일 등록했습니다.",
+            type: "notice"
+          }
+        ]);
+      }
+    }
   );
 };
 

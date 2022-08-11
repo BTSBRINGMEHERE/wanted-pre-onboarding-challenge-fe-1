@@ -1,4 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useSetRecoilState } from "recoil";
+import { snackbarState } from "../atoms/snackbar";
 import { api } from "../http/api";
 import useFetch from "./useFetch";
 
@@ -18,6 +20,7 @@ interface UpdateTodoData {
   updatedAt: string;
 }
 const useUpdateTodo = () => {
+  const setSnackbarQueue = useSetRecoilState(snackbarState);
   const queryClient = useQueryClient();
   const { putData } = useFetch(api.baseUrl);
 
@@ -30,8 +33,16 @@ const useUpdateTodo = () => {
       onSuccess: (data) => {
         queryClient.invalidateQueries(["todoList"]);
         queryClient.invalidateQueries(["todo", data.id]);
-      },
-    },
+        setSnackbarQueue((pre) => [
+          ...pre,
+          {
+            id: Date.now().toString(),
+            message: "⚠️ 할 일을 수정했습니다.",
+            type: "caution"
+          }
+        ]);
+      }
+    }
   );
 };
 

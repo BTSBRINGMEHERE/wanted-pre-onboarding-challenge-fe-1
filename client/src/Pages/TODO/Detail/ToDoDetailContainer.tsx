@@ -180,11 +180,11 @@ const ToDoDetail = () => {
   }, [isConfirm]);
 
   useEffect(() => {
-    if (isUpdate && todo?.title && todo.content) {
+    if (isUpdate && todo?.title && todo?.content) {
       setTitle(todo?.title);
       setContent(todo?.content);
     }
-  }, [isUpdate]);
+  }, [isUpdate, todo?.title, todo?.content]);
 
   return (
     <>

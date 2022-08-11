@@ -4,6 +4,7 @@ import cors from "cors";
 import createError from "http-errors";
 import { StatusCodes } from "http-status-codes";
 
+import morgan from "morgan";
 import bodyParser from "body-parser";
 
 import todoRouter from "./routes/todoRouter";
@@ -14,6 +15,8 @@ const app = express();
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use(morgan("dev"));
 
 app.use(cors());
 

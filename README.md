@@ -229,7 +229,7 @@ const Main = () => {
 
 <img width="852" alt="스크린샷 2022-08-11 오후 7 20 17" src="https://user-images.githubusercontent.com/44064122/184115239-e8e0458a-edd3-494f-b833-daf0adfc23cd.png">
 
-어떻게 해결해야할지 아직 찾지 못했습니다.
+어떻게 해결 해야 할지 아직 잘 모르겠습니다.
 
 
 ### "적절히 추상화 되지 않은 함수와 컴포넌트" 적용해보기

@@ -72,6 +72,8 @@ const ToDoList = () => {
 
 #### 삭제 버튼을 눌렀을 때, 사용자에게 경고 모달 보여주기
 
+https://user-images.githubusercontent.com/44064122/184055711-e172343f-a89d-46dc-8ae4-9fb653a30325.mov
+
 삭제 버튼을 눌렀을 때, 할 일이 바로 삭제되지 않고 사용자에게 한 번 더 확인을 받는 모달 기능을 구현하였습니다. 모달은 [useModalControl](./client/src/lib/hooks/useModalContorl.tsx) 훅을 통해서 제어됩니다.
 
 [Modal](./client/src/Components/Modals/Modal.tsx) 컴포넌트는 JSX를 children으로 받습니다. 제어 항목을 props로 넘기는 것보다 children으로 받아 Modal의 세부 내용을 구현하는 것이 더 자유도가 높습니다. 모달창 안에 들어가는 내용을 예측할 수 있고 모달을 쉽게 변경할 수 있습니다.

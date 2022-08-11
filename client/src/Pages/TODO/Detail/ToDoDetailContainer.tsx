@@ -3,9 +3,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import FormContainer from "../../../Components/FormContainer";
+import DeleteAlertModal from "../../../Components/Modals/DeleteModal";
 import useControlTodoForm from "../../../lib/hooks/useControlTodoForm";
 import useDeleteTodo from "../../../lib/hooks/useDeleteTodo";
 import useGetTodoDetail from "../../../lib/hooks/useGetTodoDetail";
+import useModalContorl from "../../../lib/hooks/useModalContorl";
 import useUpdateTodo from "../../../lib/hooks/useUpdateTodo";
 
 const Wrapper = styled.div<{ isUpdate: boolean }>`
@@ -131,25 +133,19 @@ const ToDoDetail = () => {
   const { mutate: deleteMutate } = useDeleteTodo();
   const { mutate: updateMutate } = useUpdateTodo();
   const { data: todo } = useGetTodoDetail({ id: todoId ? todoId : "" });
+  const { isModal, setIsModal, isConfirm, setIsConfirm, id, setId } =
+    useModalContorl({});
 
   const handleDetailWindow = (e: React.MouseEvent<HTMLDivElement>) => {
     navigate("/");
   };
 
-  const handleDeleteItem = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleDeleteTodo = (e: React.MouseEvent<HTMLButtonElement>) => {
     const id = e.currentTarget.closest("div")?.dataset.id;
 
     if (id) {
-      deleteMutate(
-        { id },
-        {
-          onSuccess: () => {
-            queryClient.invalidateQueries(["todo"]);
-            queryClient.invalidateQueries(["todoList"]);
-            navigate("/");
-          }
-        }
-      );
+      setId(id);
+      setIsModal(true);
     }
   };
 
@@ -169,6 +165,21 @@ const ToDoDetail = () => {
   };
 
   useEffect(() => {
+    if (isConfirm) {
+      deleteMutate(
+        { id },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries(["todo"]);
+            queryClient.invalidateQueries(["todoList"]);
+            navigate("/");
+          }
+        }
+      );
+    }
+  }, [isConfirm]);
+
+  useEffect(() => {
     if (isUpdate && todo?.title && todo.content) {
       setTitle(todo?.title);
       setContent(todo?.content);
@@ -177,6 +188,9 @@ const ToDoDetail = () => {
 
   return (
     <>
+      {isModal && (
+        <DeleteAlertModal setIsConfirm={setIsConfirm} setIsModal={setIsModal} />
+      )}
       <Wrapper
         className="item-wrapper"
         data-id={todo?.id}
@@ -192,7 +206,7 @@ const ToDoDetail = () => {
             <Footer>
               <div>아이템을 끄려면 더블클릭하세요.</div>
               <ButtonContainer data-id={todo?.id}>
-                <button className="delete-button" onClick={handleDeleteItem}>
+                <button className="delete-button" onClick={handleDeleteTodo}>
                   삭제
                 </button>
                 <button

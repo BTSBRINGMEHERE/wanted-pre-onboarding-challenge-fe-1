@@ -1,9 +1,11 @@
 import { useQueryClient } from "@tanstack/react-query";
 import React, { useEffect } from "react";
-import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import DeleteAlertModal from "../../Components/Modals/DeleteModal";
 import useDeleteTodo from "../../lib/hooks/useDeleteTodo";
 import useGetLocalDate from "../../lib/hooks/useGetLocalDate";
+import useModalContorl from "../../lib/hooks/useModalContorl";
 
 const Todo = styled.li<{ todoId: boolean }>`
   border: 1px solid
@@ -69,7 +71,9 @@ interface IToDoItemProps {
 const ToDoItem = ({ todo }: IToDoItemProps) => {
   const navigate = useNavigate();
   const { todoId } = useParams();
-  const { mutate } = useDeleteTodo();
+  const { mutate: deleteMutate } = useDeleteTodo();
+  const { id, setId, isModal, setIsModal, isConfirm, setIsConfirm } =
+    useModalContorl({});
 
   const { handleUTCTimeToLocalTime } = useGetLocalDate();
 
@@ -77,33 +81,46 @@ const ToDoItem = ({ todo }: IToDoItemProps) => {
     e.preventDefault();
     const id = e.currentTarget.closest("li")?.dataset.id;
     if (id) {
-      mutate(
-        { id },
-        {
-          onSuccess: () => {
-            navigate("/");
-          },
-        },
-      );
+      setId(id);
+      setIsModal(true);
     }
   };
 
+  useEffect(() => {
+    if (isConfirm) {
+      deleteMutate(
+        { id },
+        {
+          onSuccess: () => {
+            setIsModal(false);
+            navigate("/");
+          }
+        }
+      );
+    }
+  }, [isConfirm]);
+
   return (
-    <Todo data-id={todo.id} todoId={todoId === todo.id ? true : false}>
-      <Link to={`/${todo.id}`}>
-        <Header>
-          <h3>{todo.title}</h3>
-        </Header>
-        <ControlWrapper>
-          <InfoContinaer>
-            {handleUTCTimeToLocalTime(todo.createdAt)}
-          </InfoContinaer>
-          <ButtonContainer>
-            <button onClick={handleDeleteTodo}>삭제</button>
-          </ButtonContainer>
-        </ControlWrapper>
-      </Link>
-    </Todo>
+    <>
+      {isModal && (
+        <DeleteAlertModal setIsModal={setIsModal} setIsConfirm={setIsConfirm} />
+      )}
+      <Todo data-id={todo.id} todoId={todoId === todo.id ? true : false}>
+        <Link to={`/${todo.id}`}>
+          <Header>
+            <h3>{todo.title}</h3>
+          </Header>
+          <ControlWrapper>
+            <InfoContinaer>
+              {handleUTCTimeToLocalTime(todo.createdAt)}
+            </InfoContinaer>
+            <ButtonContainer>
+              <button onClick={handleDeleteTodo}>삭제</button>
+            </ButtonContainer>
+          </ControlWrapper>
+        </Link>
+      </Todo>
+    </>
   );
 };
 

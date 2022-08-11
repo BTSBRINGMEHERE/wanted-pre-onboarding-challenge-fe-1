@@ -4,6 +4,7 @@
   - [Refactoring](#refactoring)
     - ["사용자 액션에 따른 적절한 피드백 (UI / UX)" 적용해보기](#사용자-액션에-따른-적절한-피드백-ui--ux-적용해보기)
       - [스켈레톤 컴포넌트 적용하기](#스켈레톤-컴포넌트-적용하기)
+      - [삭제 버튼을 눌렀을 때, 사용자에게 경고 모달 보여주기](#삭제-버튼을-눌렀을-때-사용자에게-경고-모달-보여주기)
     - ["적절히 추상화 되지 않은 함수와 컴포넌트" 적용해보기](#적절히-추상화-되지-않은-함수와-컴포넌트-적용해보기)
       - [useFetch를 만들어서 비동기 통신 코드 중복 줄이기](#usefetch를-만들어서-비동기-통신-코드-중복-줄이기)
       - [useCotrolTodoForm에서 form 검증 코드 제거하기](#usecotroltodoform에서-form-검증-코드-제거하기)
@@ -27,8 +28,7 @@ https://user-images.githubusercontent.com/44064122/183937833-0f55f0e0-c274-47ff-
 > 참고 한 글  
 > [더 나은 UX를 위한 React에서 스켈레톤 컴포넌트 만들기](https://ui.toast.com/weekly-pick/ko_20201110)
 
-
-하지만 문제가 있습니다. 서버 응답이 빠르면 스켈레톤 UI가 그냥 깜박입니다. 이런 깜박임은 사용자에게 좋지 않은 경험을 주는 것 같습니다. 
+하지만 문제가 있습니다. 서버 응답이 빠르면 스켈레톤 UI가 그냥 깜박입니다. 이런 깜박임은 사용자에게 좋지 않은 경험을 주는 것 같습니다.
 
 https://user-images.githubusercontent.com/44064122/183937885-72d16362-086b-477c-b508-9e2cfb350456.mov
 
@@ -69,6 +69,72 @@ const ToDoList = () => {
   );
 };
 ```
+
+#### 삭제 버튼을 눌렀을 때, 사용자에게 경고 모달 보여주기
+
+삭제 버튼을 눌렀을 때, 할 일이 바로 삭제되지 않고 사용자에게 한 번 더 확인을 받는 모달 기능을 구현하였습니다. 모달은 [useModalControl](./client/src/lib/hooks/useModalContorl.tsx) 훅을 통해서 제어됩니다.
+
+[Modal](./client/src/Components/Modals/Modal.tsx) 컴포넌트는 JSX를 children으로 받습니다. 제어 항목을 props로 넘기는 것보다 children으로 받아 Modal의 세부 내용을 구현하는 것이 더 자유도가 높습니다. 모달창 안에 들어가는 내용을 예측할 수 있고 모달을 쉽게 변경할 수 있습니다.
+
+- Modal.tsx
+
+```typescript
+interface IModalProps extends React.HTMLAttributes<HTMLElement> {}
+
+const Modal = ({ ...props }: IModalProps) => {
+  return (
+    <ModalWrapper>
+      <ContentContainer>{props.children}</ContentContainer>
+      <ContentBackground />
+    </ModalWrapper>
+  );
+};
+
+export default Modal;
+```
+
+<details>
+<summary>구현하면서 시도했지만 실패한 부분</summary>
+
+<div markdown="1">
+  <h4>제너레이터를 사용해서 아이템 삭제를 제어할 수는 없을까?</h4>
+
+handleDeleteTodo 함수를 제너레이터로 만들어서 할 일 삭제 로직을 제어하고 싶었다. useEffect를 사용해서 모달을 제어했지만 모달이 포함된 컴포넌트가 너무 복잡해진다.
+
+```typescript
+function* handleDelete(e: React.MouseEvent<HTMLButtonElement>) {
+  e.preventDefault();
+  const id = e.currentTarget.closest("li")?.dataset.id;
+
+  yield setIsModal(true);
+
+  if (id) {
+    mutate(
+      { id },
+      {
+        onSuccess: () => {
+          navigate("/");
+        }
+      }
+    );
+
+    return true;
+  }
+
+  return false;
+}
+```
+
+끝까지 구현하지 않은 이유
+
+- 제너레이터를 사용하기 위해서 함수를 값으로 사용할 수 있어야하는데 이 부분이 애매하다.
+- 어차피 제너레이터의 next를 실행하기 위해서는 isConfirm이 true가 되었을 경우에 실행해야하는데 그러기 위해서 useEffect를 사용해야한다.
+- 이벤트 인자를 넘기는 방법이 애매해진다. 그러려면 또 함수를 만들어야한다.
+
+결론적으로 제너레이터를 사용해서 아이템 삭제 로직을 제어하는 것은 불필요해보였다.
+
+</div>
+</details>
 
 ### "적절히 추상화 되지 않은 함수와 컴포넌트" 적용해보기
 

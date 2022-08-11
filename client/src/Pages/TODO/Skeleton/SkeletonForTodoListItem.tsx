@@ -1,14 +1,6 @@
 import React from "react";
-import styled, { keyframes } from "styled-components";
-
-const loading = keyframes`
-  0%{
-    transform: translateX(0);
-  }
-  50%, 100%{
-    transform: translateX(100vw);
-  }
-`;
+import styled, { css, keyframes } from "styled-components";
+import Skeleton from "../../../Components/Skeleton";
 
 const Todo = styled.li`
   position: relative;
@@ -22,44 +14,17 @@ const Todo = styled.li`
   height: 100%;
 `;
 
-const TitleBox = styled.div`
-  position: relative;
-  width: 100%;
-  height: 2.2rem;
+const TitleSkeleton = styled(Skeleton)`
   background-color: ${({ theme }) => theme.color.gray};
-  overflow: hidden;
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 3rem;
-    height: inherit;
-    background: linear-gradient(to right, #d0d0d0, #fff, #d0d0d0);
-    animation: ${loading} 1.5s infinite linear;
-  }
 `;
 
-const ButtonBox = styled.div`
-  position: relative;
-  width: 3.4rem;
-  height: 2.4rem;
-  border-radius: 0.2rem;
+const ButtonSkeleton = styled(Skeleton)`
   background-color: ${({ theme }) => theme.color.gray};
-  overflow: hidden;
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 3rem;
-    height: inherit;
-    background: linear-gradient(to right, #d0d0d0, #fff, #d0d0d0);
-    animation: ${loading} 1.5s infinite linear;
-  }
 `;
 
-const ControlWrapper = styled.div`
+const DateSkeleton = styled(Skeleton)``;
+
+const Footer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -73,21 +38,7 @@ const Header = styled.div`
 `;
 
 const InfoContinaer = styled.div`
-  position: relative;
-  width: 5.5rem;
-  height: 1.7rem;
   background-color: ${({ theme }) => theme.color.gray};
-  overflow: hidden;
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 3rem;
-    height: inherit;
-    background: linear-gradient(to right, #d0d0d0, #fff, #d0d0d0);
-    animation: ${loading} 1.5s infinite linear;
-  }
 `;
 
 const ButtonContainer = styled.div``;
@@ -98,14 +49,19 @@ const SkeletonForTodoListItem = () => {
   return (
     <Todo>
       <Header>
-        <TitleBox />
+        <TitleSkeleton skeletonBoxHeight="2.2rem" skeletonBoxWidth="100%" />
       </Header>
-      <ControlWrapper>
-        <InfoContinaer />
+      <Footer>
+        <InfoContinaer>
+          <DateSkeleton skeletonBoxHeight="1.7rem" skeletonBoxWidth="5.5rem" />
+        </InfoContinaer>
         <ButtonContainer>
-          <ButtonBox />
+          <ButtonSkeleton
+            skeletonBoxHeight="2.4rem"
+            skeletonBoxWidth="3.4rem"
+          />
         </ButtonContainer>
-      </ControlWrapper>
+      </Footer>
     </Todo>
   );
 };

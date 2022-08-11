@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { isReadable } from "stream";
 import Snackbar from "../../Components/Snackbar/Snackbar";
 import { snackbarState } from "../../lib/atoms/snackbar";
 import { userState } from "../../lib/atoms/user";
@@ -11,13 +12,20 @@ interface IMainProps {}
 const Main = () => {
   const navigate = useNavigate();
   const { isLogin } = useRecoilValue(userState);
-  const snackbarQueue = useRecoilValue(snackbarState);
+  const [snackbarQueue, setSnackbarQueue] = useRecoilState(snackbarState);
 
   useEffect(() => {
     if (!isLogin) {
       navigate("/auth/login");
     }
   }, [isLogin]);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    timer = setTimeout(() => setSnackbarQueue([]), 6000);
+    return () => clearTimeout(timer);
+  }, [snackbarQueue]);
+
   return (
     <>
       <Snackbar>

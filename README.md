@@ -5,6 +5,7 @@
     - ["사용자 액션에 따른 적절한 피드백 (UI / UX)" 적용해보기](#사용자-액션에-따른-적절한-피드백-ui--ux-적용해보기)
       - [스켈레톤 컴포넌트 적용하기](#스켈레톤-컴포넌트-적용하기)
       - [삭제 버튼을 눌렀을 때, 사용자에게 경고 모달 보여주기](#삭제-버튼을-눌렀을-때-사용자에게-경고-모달-보여주기)
+      - [스낵바로 상태 메시지 보여주기](#스낵바로-상태-메시지-보여주기)
     - ["적절히 추상화 되지 않은 함수와 컴포넌트" 적용해보기](#적절히-추상화-되지-않은-함수와-컴포넌트-적용해보기)
       - [useFetch를 만들어서 비동기 통신 코드 중복 줄이기](#usefetch를-만들어서-비동기-통신-코드-중복-줄이기)
       - [useCotrolTodoForm에서 form 검증 코드 제거하기](#usecotroltodoform에서-form-검증-코드-제거하기)
@@ -137,6 +138,93 @@ function* handleDelete(e: React.MouseEvent<HTMLButtonElement>) {
 
 </div>
 </details>
+
+#### 스낵바로 상태 메시지 보여주기
+
+사용자가 UI의 변경을 일으키는 동작을 했을 경우에 알림을 위해 [스낵바를 구현](./client/src/Components/Snackbar/Snackbar.tsx)하였습니다. 스낵바를 구현하면서 애니메이션에 대해서 몇 가지 배운 것을 정리하려고 합니다.
+
+1. CSS 키프레임
+
+- CSS 키프레임은 애니메이션 동작을 제어할 수 있습니다. 'from to'로 처음과 나중을 지정하거나 '0%'로 제어를 할 수 있습니다. 키프레임 안에는 원하는 동작을 작성하면 됩니다. 아래 코드는 styled-components를 사용하여 keyframe을 만들었습니다.
+
+```typescript
+const snackbarTimerKeyframe = keyframes`
+  0%{
+    visibility: visible;
+    transform-origin: top left;
+    transform: scaleX(0%);
+  }
+  100%{
+    visibility: visible;
+    transform-origin: top left;
+    transform: scaleX(100%);
+  }
+  `;
+```
+
+- 키프레임의 작성이 끝나면 움직임을 주고 싶은 컴포넌트에 animation 속성을 등록하면 됩니다.
+- 애니메이션을 등록할 초기값 설정을 기본 css 속성으로 등록해주는 것이 좋습니다. 그렇지 않으면 애니메이션이 다 끝난 다음에 예상치 못한 동작을 볼 수 있습니다. 아래 코드는 snackbar를 3.5초동안 1번 움직이는 동작을 구현한 코드입니다. 만약에 MessageContainer 스타일 컴포넌트에 "transform: translateX(120%);"으로 초기값이 등록되어있지 않으면 애니메이션이 다 끝난 다음에 스낵바가 화면으로 튀어나오게 됩니다. **애니메이션 동작 후에 예상치 못한 동작이 발생한다면 초기값을 확인해보세요.**
+
+```typescript
+const snackbarTranslaterKeyframe = keyframes`
+0%{
+  transform : translateX(100%);
+}
+5%{
+  transform: translateX(0);
+}
+95%{
+  transform: translateX(0);
+}
+100%{
+  transform : translateX(100%);
+}
+`;
+
+const MessageContainer = styled.div`
+  ...
+  transform: translateX(120%);
+  animation: ${snackbarTranslaterKeyframe} 3.5s 1 linear;
+  `;
+```
+
+- keyframe의 타이밍을 조절하려면 각 keyframe의 간격을 조절하면됩니다. 처음에는 animation-delay로 설정할 수 있을 줄 알았는데 그 방법은 동작하지 않습니다. 애니메이션의 총 동작 시간을 정한 다음에 키프레임 간격으로 동작을 제어하면 됩니다.
+
+2. 아직 해결하지 못한 문제
+
+어떤 동작을 성공했을 경우에 snackbar 큐에 메시지를 등록하게 됩니다. 그리고 등록된 메시지는 전역상태 값에 따라 스낵바가 화면에 그려집니다. 그런데 문제는 DOM에 스넥바가 등록 되었지만 동작이 끝난 다음에 사라지지 않고 그대로 DOM에 남아있습니다.
+\*\* 이미지
+
+그렇기 때문에 스넥바를 돔에서 삭제해야하는 문제를 아직 해결하지 못했습니다.
+
+```typescript
+// 어떤 동작의 성공
+{
+  onSuccess: () => {
+    setSnackbarQueue((pre) => [
+      ...pre,
+      {
+        id: Date.now().toString(),
+        message: "✅ 할 일 등록했습니다.",
+        type: "notice"
+      }
+    ]);
+  };
+}
+
+// 스낵바 출력
+const Main = () => {
+  const snackbarQueue = useRecoilValue(snackbarState);
+
+  return (
+    <Snackbar>
+      {snackbarQueue.map(({ id, message, type }) => (
+        <Snackbar.Item key={id} data-set={id} message={message} type={type} />
+      ))}
+    </Snackbar>
+  );
+};
+```
 
 ### "적절히 추상화 되지 않은 함수와 컴포넌트" 적용해보기
 

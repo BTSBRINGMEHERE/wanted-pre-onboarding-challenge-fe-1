@@ -192,45 +192,64 @@ const MessageContainer = styled.div`
 
 - keyframe의 타이밍을 조절하려면 각 keyframe의 간격을 조절하면됩니다. 처음에는 animation-delay로 설정할 수 있을 줄 알았는데 그 방법은 동작하지 않습니다. 애니메이션의 총 동작 시간을 정한 다음에 키프레임 간격으로 동작을 제어하면 됩니다.
 
-2. 아직 해결하지 못한 문제
+2. 고민했던 문제
 
-어떤 동작을 성공했을 경우에 snackbar 큐에 메시지를 등록하게 됩니다. 그리고 등록된 메시지는 전역상태 값에 따라 스낵바가 화면에 그려집니다. 
+   - 문제
 
+     어떤 동작을 성공했을 경우에 snackbar 큐에 메시지를 등록하게 됩니다. 그리고 등록된 메시지는 전역상태 값에 따라 스낵바가 화면에 그려집니다.
 
-```typescript
-// 어떤 동작의 성공
-{
-  onSuccess: () => {
-    setSnackbarQueue((pre) => [
-      ...pre,
-      {
-        id: Date.now().toString(),
-        message: "✅ 할 일 등록했습니다.",
-        type: "notice"
-      }
-    ]);
-  };
-}
+     ```typescript
+     // 어떤 동작의 성공
+     {
+       onSuccess: () => {
+         setSnackbarQueue((pre) => [
+           ...pre,
+           {
+             id: Date.now().toString(),
+             message: "✅ 할 일 등록했습니다.",
+             type: "notice"
+           }
+         ]);
+       };
+     }
 
-// 스낵바 출력
-const Main = () => {
-  const snackbarQueue = useRecoilValue(snackbarState);
+     // 스낵바 출력
+     const Main = () => {
+       const snackbarQueue = useRecoilValue(snackbarState);
 
-  return (
-    <Snackbar>
-      {snackbarQueue.map(({ id, message, type }) => (
-        <Snackbar.Item key={id} data-set={id} message={message} type={type} />
-      ))}
-    </Snackbar>
-  );
-};
-```
-그런데 문제는 DOM에 스넥바가 등록 되었지만 동작이 끝난 다음에 사라지지 않고 그대로 DOM에 남아있습니다.
+       return (
+         <Snackbar>
+           {snackbarQueue.map(({ id, message, type }) => (
+             <Snackbar.Item
+               key={id}
+               data-set={id}
+               message={message}
+               type={type}
+             />
+           ))}
+         </Snackbar>
+       );
+     };
+     ```
 
-<img width="852" alt="스크린샷 2022-08-11 오후 7 20 17" src="https://user-images.githubusercontent.com/44064122/184115239-e8e0458a-edd3-494f-b833-daf0adfc23cd.png">
+     그런데 문제는 DOM에 스넥바가 등록 되었지만 동작이 끝난 다음에 사라지지 않고 그대로 DOM에 남아있습니다.
 
-어떻게 해결 해야 할지 아직 잘 모르겠습니다.
+      <img width="852" alt="스크린샷 2022-08-11 오후 7 20 17" src="https://user-images.githubusercontent.com/44064122/184115239-e8e0458a-edd3-494f-b833-daf0adfc23cd.png">
 
+   - 해결책
+
+     - 처음에 제가 생각한 해결책은 queue를 구현해서 메시지를 한개씩 제거하는 것이었습니다. 하지만 shift로 큐를 구현할 경우 성능 문제가 있습니다. 그리고 queue의 변경을 react가 감지하면 DOM이 새로 그려질 것이라고 생각하여 queue로 구현하지 않았습니다.
+     - 아주 간단하게 useEffect를 사용해서 snackbar queue가 변경될 때마다 timer를 등록하게 하고 일정 시간이 지나면 queue를 전부 지우는 방법으로 이 문제를 해결했습니다.
+
+     ```typescript
+     useEffect(() => {
+       let timer: NodeJS.Timeout;
+       timer = setTimeout(() => setSnackbarQueue([]), 6000);
+       return () => clearTimeout(timer);
+     }, [snackbarQueue]);
+     ```
+
+     시간이 지나면 DOM에 있던 HTML 태그가 전부 삭제됩니다.
 
 ### "적절히 추상화 되지 않은 함수와 컴포넌트" 적용해보기
 

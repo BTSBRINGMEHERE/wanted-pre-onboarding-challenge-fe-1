@@ -141,6 +141,8 @@ function* handleDelete(e: React.MouseEvent<HTMLButtonElement>) {
 
 #### 스낵바로 상태 메시지 보여주기
 
+https://user-images.githubusercontent.com/44064122/184115407-595fc092-7754-4ecd-bd1e-a3f9e98d9f02.mov
+
 사용자가 UI의 변경을 일으키는 동작을 했을 경우에 알림을 위해 [스낵바를 구현](./client/src/Components/Snackbar/Snackbar.tsx)하였습니다. 스낵바를 구현하면서 애니메이션에 대해서 몇 가지 배운 것을 정리하려고 합니다.
 
 1. CSS 키프레임
@@ -192,10 +194,8 @@ const MessageContainer = styled.div`
 
 2. 아직 해결하지 못한 문제
 
-어떤 동작을 성공했을 경우에 snackbar 큐에 메시지를 등록하게 됩니다. 그리고 등록된 메시지는 전역상태 값에 따라 스낵바가 화면에 그려집니다. 그런데 문제는 DOM에 스넥바가 등록 되었지만 동작이 끝난 다음에 사라지지 않고 그대로 DOM에 남아있습니다.
-\*\* 이미지
+어떤 동작을 성공했을 경우에 snackbar 큐에 메시지를 등록하게 됩니다. 그리고 등록된 메시지는 전역상태 값에 따라 스낵바가 화면에 그려집니다. 
 
-그렇기 때문에 스넥바를 돔에서 삭제해야하는 문제를 아직 해결하지 못했습니다.
 
 ```typescript
 // 어떤 동작의 성공
@@ -225,6 +225,12 @@ const Main = () => {
   );
 };
 ```
+그런데 문제는 DOM에 스넥바가 등록 되었지만 동작이 끝난 다음에 사라지지 않고 그대로 DOM에 남아있습니다.
+
+<img width="852" alt="스크린샷 2022-08-11 오후 7 20 17" src="https://user-images.githubusercontent.com/44064122/184115239-e8e0458a-edd3-494f-b833-daf0adfc23cd.png">
+
+어떻게 해결해야할지 아직 찾지 못했습니다.
+
 
 ### "적절히 추상화 되지 않은 함수와 컴포넌트" 적용해보기
 

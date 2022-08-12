@@ -6,7 +6,9 @@
       - [스켈레톤 컴포넌트 적용하기](#스켈레톤-컴포넌트-적용하기)
       - [삭제 버튼을 눌렀을 때, 사용자에게 경고 모달 보여주기](#삭제-버튼을-눌렀을-때-사용자에게-경고-모달-보여주기)
       - [스낵바로 상태 메시지 보여주기](#스낵바로-상태-메시지-보여주기)
-    - ["적절히 추상화 되지 않은 함수와 컴포넌트" 적용해보기](#적절히-추상화-되지-않은-함수와-컴포넌트-적용해보기)
+    - [명령형 프로그래밍 -> 선언적 프로그래밍 적용해보기](#명령형-프로그래밍---선언적-프로그래밍-적용해보기)
+      - [인증과 인가](#인증과-인가)
+    - ["적절히 추상화 되지 않은 함수와 컴포넌트" 부분 적용해보기](#적절히-추상화-되지-않은-함수와-컴포넌트-부분-적용해보기)
       - [useFetch를 만들어서 비동기 통신 코드 중복 줄이기](#usefetch를-만들어서-비동기-통신-코드-중복-줄이기)
       - [useCotrolTodoForm에서 form 검증 코드 제거하기](#usecotroltodoform에서-form-검증-코드-제거하기)
       - [FormContainer에 Headless UI 개념 적용해보기](#formcontainer에-headless-ui-개념-적용해보기)
@@ -251,7 +253,159 @@ const MessageContainer = styled.div`
 
      시간이 지나면 DOM에 있던 HTML 태그가 전부 삭제됩니다.
 
-### "적절히 추상화 되지 않은 함수와 컴포넌트" 적용해보기
+### 명령형 프로그래밍 -> 선언적 프로그래밍 적용해보기
+
+#### 인증과 인가
+
+새로고침을 하면 isLogin이 잠깐동안 undefined가 되기 때문에 화면 깜박임 뿐 아니라 PageNotFound가 잠깐동안 동작하게 됩니다. 갑자기 로그인이 풀렸다가 재로그인이 되는 과정을 사용자에게 적나라게 모두 보여주기 때문에 느낌상 신뢰가 가지 않습니다. !isLogin이 true이면 "/login"과 "/signup"에 접근을 막고 싶었습니다. 그래서 인증과 인가를 위한 코드를 아래와 같이 라우터에 직접 입력했습니다.
+
+```typescript
+const Routers = () => {
+  const { isLogin } = useRecoilValue(userState);
+
+  return (
+    <Routes>
+      {isLogin && <Route path="/logout" element={<Logout />} />}
+      <Route path="/" element={<MainLayout />}>
+        <Route path="/" element={<Main />}>
+          <Route path=":todoId" element={<ToDoDetail />} />
+        </Route>
+        <Route path="auth">
+          {!isLogin && (
+            <>
+              <Route path="login" element={<Login />} />
+              <Route path="signup" element={<SignUp />} />
+            </>
+          )}
+        </Route>
+      </Route>
+
+      <Route path="*" element={<PageNotFound />} />
+    </Routes>
+  );
+};
+
+export default Routers;
+```
+
+덕분에(?) '/login', '/signup', '/logout' 페이지에 접근은 막았지만 사용성은 좋지 않습니다. 그래서 나름 해결한다고 PageNotFound 컴포넌트를 수정했습니다.
+
+```tsx
+const PageNotFound = () => {
+  const params = useParams();
+  const [isAuth, setIsAuth] = useState(false);
+  const navigate = useNavigate();
+  const { isLogin } = useRecoilValue(userState);
+
+  const authUrlList = ["auth/login", "auth/signup"];
+
+  const checkAuthUrl = () => {
+    for (let url of authUrlList) {
+      if (url === params["*"]) {
+        setIsAuth(true);
+      }
+    }
+  };
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    checkAuthUrl();
+
+    if (isLogin && isAuth) {
+      navigate("/");
+    }
+
+    timer = setTimeout(() => navigate("/"), 2500);
+
+    return () => {
+      setIsAuth(false);
+      clearTimeout(timer);
+    };
+  }, [isLogin, isAuth]);
+
+  return (
+    <Wrapper>
+      <h1>🥲 페이지를 찾을 수가 없네요</h1>
+    </Wrapper>
+  );
+};
+
+export default PageNotFound;
+```
+
+checkAuthUrl()이 실행되면서 authUrlList를 확인하고 해당되면 홈으로 곧바로 리다이렉트 해주고 그렇지 않으면 2.5초간 페이지를 찾을 수 없다는 문구를 보여주고 메인 페이지로 리다이렉트 해주게 됩니다. 나름 좋은 해결책이었다고는 생각했지만 잠깐 동안 '페이지를 찾을 수 없습니다.'라는 문구를 보여주지 않는 문제는 여전히 해결할 수 없었습니다.
+
+제가 생각했을 때, 위 코드가 가지고 있는 문제점을 꼽아보았습니다.
+
+- 사용성이 좋지 않다.
+- authUrlList를 계속 관리해주어야 한다. 수가 늘어나거나 줄어들 경우 프로그래머를 귀찮게한다.
+- 인증, 인가 로직이 일차원적이라 한단계 더 인증해야한다면 일일이 인증 인가를 라우터에 붙여야한다. 그러면 if else 또는 삼항 연산자가 지저분하게 붙는다.
+
+저는 먼저 인증, 인가 로직을 해결하기로 했습니다. 이 부분을 해결하기 위해 봤던 아티클 중 도움이 가장 많이 된 [아티클을 공유(React Router 6: Private Routes (alias Protected Routes))](https://www.robinwieruch.de/react-router-private-routes/)합니다.
+
+위 아티클을 보면서 ProtectRouter를 만들게 되었고 인증과 인가 문제를 해결할 수 있었습니다.
+
+```tsx
+// ProtectRouter.tsx
+import React, { ReactElement } from "react";
+import { Navigate, Outlet } from "react-router-dom";
+
+interface IProtectRouterProps {
+  isAllow: boolean;
+  redirectPath: string;
+  children?: ReactElement;
+}
+
+const ProtectRouter = ({
+  isAllow,
+  redirectPath,
+  children
+}: IProtectRouterProps) => {
+  if (!isAllow) {
+    return <Navigate to={redirectPath} replace />;
+  }
+
+  return children ? children : <Outlet />;
+};
+
+export default ProtectRouter;
+
+// Router.tsx
+const Routers = () => {
+  const { isLogin } = useRecoilValue(userState);
+  return (
+    <Routes>
+      <Route path="/" element={<MainLayout />}>
+        <Route
+          element={
+            <ProtectRouter isAllow={isLogin} redirectPath={"/auth/login"} />
+          }
+        >
+          <Route path="/" element={<Main />}>
+            <Route path=":todoId" element={<ToDoDetail />} />
+          </Route>
+          <Route path="/logout" element={<Logout />} />
+        </Route>
+        <Route
+          element={<ProtectRouter isAllow={!isLogin} redirectPath={"/"} />}
+        >
+          <Route path="auth">
+            <Route path="login" element={<Login />} />
+            <Route path="signup" element={<SignUp />} />
+          </Route>
+        </Route>
+      </Route>
+      <Route path="*" element={<PageNotFound />} />
+    </Routes>
+  );
+};
+
+export default Routers;
+```
+
+What과 How를 분리하였다고 생각합니다. **Router는 무엇을 보여줄지에만 집중하고 ProtectRouter에게 어떻게 보여줄지**만 집중합니다. 그리고 예상치 못하게도 ProtectRouter를 적용하니까 제가 문제라고 생각했던 부분이 전부 해결되었습니다. 정말 잠깐의 화면 깜박임은 있지만 isLogin이 false에서 true가 되면서 발생하는 문제들이 모두 사라졌습니다. 덕분에 PageNotFound 컴포넌트도 페이지가 없다는 **메시지를 보여주는 역할에만 집중** 할 수 있게 되었습니다. 생각보다 선언적 프로그래밍이 주는 효과가 좋네요.
+
+### "적절히 추상화 되지 않은 함수와 컴포넌트" 부분 적용해보기
 
 #### useFetch를 만들어서 비동기 통신 코드 중복 줄이기
 

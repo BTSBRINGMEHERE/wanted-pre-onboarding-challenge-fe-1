@@ -8,6 +8,7 @@ import useGetLocalDate from "../../lib/hooks/useGetLocalDate";
 import useModalContorl from "../../lib/hooks/useModalContorl";
 
 const Todo = styled.li<{ todoId: boolean }>`
+  cursor: pointer;
   border: 1px solid
     ${({ todoId, theme }) => (todoId ? theme.color.main : "#d2d2d2")};
   border-radius: 0.5rem;
@@ -77,6 +78,15 @@ const ToDoItem = ({ todo }: IToDoItemProps) => {
 
   const { handleUTCTimeToLocalTime } = useGetLocalDate();
 
+  const handleRedirectPage = (e: React.MouseEvent<HTMLElement>) => {
+    const id = e.currentTarget.dataset.id;
+    if (todoId === id) {
+      navigate(`/`, { replace: true });
+    } else {
+      navigate(`/${id}`, { replace: true });
+    }
+  };
+
   const handleDeleteTodo = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const id = e.currentTarget.closest("li")?.dataset.id;
@@ -105,20 +115,22 @@ const ToDoItem = ({ todo }: IToDoItemProps) => {
       {isModal && (
         <DeleteAlertModal setIsModal={setIsModal} setIsConfirm={setIsConfirm} />
       )}
-      <Todo data-id={todo.id} todoId={todoId === todo.id ? true : false}>
-        <Link to={`/${todo.id}`}>
-          <Header>
-            <h3>{todo.title}</h3>
-          </Header>
-          <ControlWrapper>
-            <InfoContinaer>
-              {handleUTCTimeToLocalTime(todo.createdAt)}
-            </InfoContinaer>
-            <ButtonContainer>
-              <button onClick={handleDeleteTodo}>삭제</button>
-            </ButtonContainer>
-          </ControlWrapper>
-        </Link>
+      <Todo
+        data-id={todo.id}
+        onClick={handleRedirectPage}
+        todoId={todoId === todo.id ? true : false}
+      >
+        <Header>
+          <h3>{todo.title}</h3>
+        </Header>
+        <ControlWrapper>
+          <InfoContinaer>
+            {handleUTCTimeToLocalTime(todo.createdAt)}
+          </InfoContinaer>
+          <ButtonContainer>
+            <button onClick={handleDeleteTodo}>삭제</button>
+          </ButtonContainer>
+        </ControlWrapper>
       </Todo>
     </>
   );

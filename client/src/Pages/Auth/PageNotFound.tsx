@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { userState } from "../../lib/atoms/user";
@@ -16,39 +16,19 @@ const Wrapper = styled.div`
   }
 `;
 
-interface IPageNotFoundProps {}
-
 const PageNotFound = () => {
-  const params = useParams();
-  const [isAuth, setIsAuth] = useState(false);
   const navigate = useNavigate();
   const { isLogin } = useRecoilValue(userState);
 
-  const authUrlList = ["auth/login", "auth/signup"];
-
-  const checkAuthUrl = () => {
-    for (let url of authUrlList) {
-      if (url === params["*"]) {
-        setIsAuth(true);
-      }
-    }
-  };
-
   useEffect(() => {
     let timer: NodeJS.Timeout;
-    checkAuthUrl();
-
-    if (isLogin && isAuth) {
-      navigate("/");
-    }
 
     timer = setTimeout(() => navigate("/"), 2500);
 
     return () => {
-      setIsAuth(false);
       clearTimeout(timer);
     };
-  }, [isLogin, isAuth]);
+  }, [isLogin]);
 
   return (
     <Wrapper>

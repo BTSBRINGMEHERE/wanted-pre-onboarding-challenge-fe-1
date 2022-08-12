@@ -405,6 +405,8 @@ export default Routers;
 
 What과 How를 분리하였다고 생각합니다. **Router는 무엇을 보여줄지에만 집중하고 ProtectRouter에게 어떻게 보여줄지**만 집중합니다. 그리고 예상치 못하게도 ProtectRouter를 적용하니까 제가 문제라고 생각했던 부분이 전부 해결되었습니다. 정말 잠깐의 화면 깜박임은 있지만 isLogin이 false에서 true가 되면서 발생하는 문제들이 모두 사라졌습니다. 덕분에 PageNotFound 컴포넌트도 페이지가 없다는 **메시지를 보여주는 역할에만 집중** 할 수 있게 되었습니다. 생각보다 선언적 프로그래밍이 주는 효과가 좋네요.
 
+https://user-images.githubusercontent.com/44064122/184263974-a831a3c9-f8a9-44b9-afff-6f2f8a3090be.mov
+
 ### "적절히 추상화 되지 않은 함수와 컴포넌트" 부분 적용해보기
 
 #### useFetch를 만들어서 비동기 통신 코드 중복 줄이기

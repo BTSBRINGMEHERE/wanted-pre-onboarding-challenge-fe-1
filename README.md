@@ -1,6 +1,8 @@
 # 사전 과제 수행
 
 - [사전 과제 수행](#사전-과제-수행)
+  - [React Query 사용하여 API 호출하기](#react-query-사용하여-api-호출하기)
+    - [React Query로 API 호출하는 커스텀 훅 만들기](#react-query로-api-호출하는-커스텀-훅-만들기)
   - [Refactoring](#refactoring)
     - ["사용자 액션에 따른 적절한 피드백 (UI / UX)" 적용해보기](#사용자-액션에-따른-적절한-피드백-ui--ux-적용해보기)
       - [스켈레톤 컴포넌트 적용하기](#스켈레톤-컴포넌트-적용하기)
@@ -17,6 +19,148 @@
   - [어플리케이션을 만들면서 궁금했고 앞으로 개선하고 싶은 부분](#어플리케이션을-만들면서-궁금했고-앞으로-개선하고-싶은-부분)
   - [자기 소개](#자기-소개)
   - [부록](#부록)
+
+## React Query 사용하여 API 호출하기
+
+### React Query로 API 호출하는 커스텀 훅 만들기
+
+리액트 쿼리를 사용해서 서버 상태를 관리하는 것은 매우 편리합니다. 하지만 이전의 경험으로 보았을 때, API를 호출하는 코드와 뷰가 한 컴포넌트 안에서 있어서 코드가 매우 복잡하고 특정 로직을 수정하려면 복잡한 과정을 거쳐야했습니다.
+
+```typescript
+function Notice() {
+  const { id } = useParams();
+
+  const { isLogin } = useRecoilValue(loginState);
+  const setDetailItem = useSetRecoilState(notice);
+  const [noticeModalState, setNoticeModalState] =
+    useRecoilState(noticeModalControler);
+
+  // API 호출
+  const {
+    isSuccess,
+    isRefetching,
+    isLoading,
+    data: notices
+  } = useGet<INoticeInterface[]>({
+    url: `/api/notice?offset=0&limit=9`,
+    queryKey: "notice"
+  });
+
+  const onClick = (id: string) => {
+    if (notices) {
+      const [detailItem] = notices.filter((item) => item._id === id);
+      setNoticeModalState(true);
+      setDetailItem({ ...detailItem });
+    }
+  };
+
+  useEffect(() => {
+    if (id && isSuccess && !isRefetching) {
+      const [detailItem] = notices.filter((item) => item._id === id);
+      setNoticeModalState(true);
+      setDetailItem({ ...detailItem });
+    }
+  }, [id, isSuccess, isRefetching]);
+
+  return (
+    <>
+      <NoticeListContainer>
+        <Wrapper>
+          <NoticeComponentInfoContainer>
+            <h1>공지사항</h1>
+            {isLogin && (
+              <Link to={"/notice/create"}>
+                <AiFillPlusCircle />
+              </Link>
+            )}
+          </NoticeComponentInfoContainer>
+          <>
+            {notices && (
+              <ListContainer
+                isLoading={isLoading && isRefetching}
+                data={notices}
+                renderFunc={(item) => (
+                  <ListItem
+                    key={item._id}
+                    data={item}
+                    onClick={() => onClick(item._id)}
+                  />
+                )}
+                skeletonRenderFunc={(item: number[], index: number) => (
+                  <SkeletonForListItem key={index} />
+                )}
+              />
+            )}
+          </>
+        </Wrapper>
+        <AnimatePresence>{noticeModalState && <Outlet />}</AnimatePresence>
+      </NoticeListContainer>
+    </>
+  );
+}
+```
+
+이번에 투두 리스트를 만들때는 이 문제를 해결하고 싶었습니다. 그래서 API를 호출하는 코드를 분리해서 훅으로 만들고 불어와서 바로 사용하도록 변경하였습니다.
+
+```typescript
+// API 호출
+
+const useCreateTodo = () => {
+  const setSnackbarQueue = useSetRecoilState(snackbarState);
+  const { postData } = useFetch<CreateTodoVariable>(api.baseUrl);
+  const queryClient = useQueryClient();
+
+  return useMutation<CreateTodoData, Error, CreateTodoVariable, unknown>(
+    (body) => postData("/todos", body),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["todoList"]);
+        setSnackbarQueue((pre) => [
+          ...pre,
+          {
+            id: Date.now().toString(),
+            message: "✅ 할 일 등록했습니다.",
+            type: "notice"
+          }
+        ]);
+      }
+    }
+  );
+};
+
+// 투두를 생성하는 영역
+const ToDoListContainer = () => {
+  // 훅 한줄로 API 호출을 관리할 수 있다.
+  const { mutate } = useCreateTodo();
+
+  const handleTodo = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (title === "") {
+      setIsTitle(false);
+      return;
+    }
+    setIsTitle(null);
+
+    mutate(
+      {
+        title,
+        content
+      },
+      {
+        onSuccess: () => {
+          setTitle("");
+          setContent("");
+        }
+      }
+    );
+  };
+
+  return; // 생략
+};
+```
+
+이렇게 관리하는 것의 장점은 호출 API를 변경해야할 때 여러곳을 돌면서 코드를 수정하지 않아도 된다는 점이 좋은 것 같습니다.
 
 ## Refactoring
 

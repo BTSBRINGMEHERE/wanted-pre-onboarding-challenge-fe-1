@@ -2,7 +2,11 @@ import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { DeleteModal } from "@/Components";
-import { useDeleteTodo, useGetLocalDate, useModalContorl } from "@/lib/hooks";
+import {
+  useDeleteTodo,
+  useChangeUTCToLocalDate,
+  useModalContorl
+} from "@/lib/hooks";
 
 const Todo = styled.li<{ todoId: boolean }>`
   cursor: pointer;
@@ -73,7 +77,7 @@ const ToDoItem = ({ todo }: IToDoItemProps) => {
   const { id, setId, isModal, setIsModal, isConfirm, setIsConfirm } =
     useModalContorl({});
 
-  const { handleUTCTimeToLocalTime } = useGetLocalDate();
+  const { changeUTCTimeToLocalTime } = useChangeUTCToLocalDate();
 
   const handleRedirectPage = (e: React.MouseEvent<HTMLElement>) => {
     const id = e.currentTarget.dataset.id;
@@ -122,7 +126,7 @@ const ToDoItem = ({ todo }: IToDoItemProps) => {
         </Header>
         <ControlWrapper>
           <InfoContinaer>
-            {handleUTCTimeToLocalTime(todo.createdAt)}
+            {changeUTCTimeToLocalTime(todo.createdAt)}
           </InfoContinaer>
           <ButtonContainer>
             <button onClick={handleDeleteTodo}>삭제</button>

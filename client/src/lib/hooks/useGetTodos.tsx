@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import useFetch from "./useFetch";
 import { mainUrl } from "../http/api";
 
-interface GetTodosVariables {
+interface Todos {
   title: string;
   content: string;
   id: string;
@@ -11,11 +11,21 @@ interface GetTodosVariables {
   updatedAt: string;
 }
 
-const useGetTodos = () => {
-  const { getData } = useFetch<unknown, GetTodosVariables[]>(mainUrl.baseUrl);
+interface GetTodosVariables {
+  data: Todos[];
+}
 
-  return useQuery<GetTodosVariables[], Error>(["todoList"], () =>
-    getData("/todos")
+const useGetTodos = () => {
+  const { getData } = useFetch<unknown, GetTodosVariables>(mainUrl.baseUrl);
+
+  return useQuery<GetTodosVariables, Error, Todos[]>(
+    ["todoList"],
+    () => getData("/todos"),
+    {
+      select: ({ data }) => {
+        return data;
+      }
+    }
   );
 };
 

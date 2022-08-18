@@ -15,8 +15,6 @@ const Wrapper = styled.div`
   }
 `;
 
-interface ILogoutProps {}
-
 const Logout = () => {
   const navigate = useNavigate();
   const { removeLocalStorage, setUserState } = useRemoveUserState();

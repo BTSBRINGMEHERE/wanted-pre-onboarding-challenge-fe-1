@@ -25,7 +25,6 @@ const Routers = () => {
           <Route path="/" element={<Main />}>
             <Route path=":todoId" element={<ToDoDetailContainer />} />
           </Route>
-          <Route path="/logout" element={<Logout />} />
         </Route>
         <Route
           element={<ProtectRouter isAllow={!isLogin} redirectPath={"/"} />}
@@ -36,6 +35,7 @@ const Routers = () => {
           </Route>
         </Route>
       </Route>
+      <Route path="/logout" element={<Logout />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

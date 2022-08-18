@@ -35,12 +35,11 @@ const Button = styled(FormContainer.Button)`
   }
 `;
 
-interface ILoginProps {}
-
 const Login = () => {
   const navigate = useNavigate();
   const [isDisabled, setIsDisabled] = useState(false);
-  const { setLocalStorage, setUserState } = useSetUserState();
+
+  const { setUserState } = useSetUserState();
   const {
     email,
     password,
@@ -49,19 +48,14 @@ const Login = () => {
     onEmailChange,
     onPasswordChange
   } = useValidation();
-  const { isSuccess, mutate } = useLogin();
+  const { isSuccess, mutate: loginMutate } = useLogin();
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const body = { email, password };
 
-    mutate(body, {
-      onSuccess: ({ token }) => {
-        setLocalStorage(token);
-        setUserState((pre) => ({ ...pre, isLogin: false, token }));
-      }
-    });
+    loginMutate(body);
   };
 
   useEffect(() => {
@@ -74,6 +68,7 @@ const Login = () => {
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
+
     if (isSuccess) {
       timer = setTimeout(() => {
         setUserState((pre) => ({ ...pre, isLogin: true }));

@@ -2,7 +2,7 @@ export { default as useControlTodoForm } from "./useControlTodoForm";
 export { default as useCreateTodo } from "./useCreateTodo";
 export { default as useDeleteTodo } from "./useDeleteTodo";
 export { default as useFetch } from "./useFetch";
-export { default as useGetLocalDate } from "./useGetLocalDate";
+export { default as useChangeUTCToLocalDate } from "./useChangeUTCToLocalDate";
 export { default as useGetTodoDetail } from "./useGetTodoDetail";
 export { default as useGetTodos } from "./useGetTodos";
 export { default as useLogin } from "./useLogin";

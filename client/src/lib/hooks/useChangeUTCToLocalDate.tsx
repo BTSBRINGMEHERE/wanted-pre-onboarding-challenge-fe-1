@@ -1,5 +1,5 @@
-const useGetLocalDate = () => {
-  const handleUTCTimeToLocalTime = (date: string) => {
+const useChangeUTCToLocalDate = () => {
+  const changeUTCTimeToLocalTime = (date: string) => {
     const createDate = new Date(date);
     const createDateToTime = createDate.getTime();
     const now = Date.now();
@@ -31,7 +31,7 @@ const useGetLocalDate = () => {
     return `${year}년 ${month + 1}월 ${day}일`;
   };
 
-  return { handleUTCTimeToLocalTime };
+  return { changeUTCTimeToLocalTime };
 };
 
-export default useGetLocalDate;
+export default useChangeUTCToLocalDate;

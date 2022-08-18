@@ -1,7 +1,7 @@
 import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useFetch from "./useFetch";
-import { api } from "../http/api";
+import { mainUrl } from "../http/api";
 import { useSetRecoilState } from "recoil";
 import { snackbarState } from "../atoms/snackbar";
 
@@ -14,7 +14,7 @@ interface DeleteTodoData {
 const useDeleteTodo = () => {
   const setSnackbarQueue = useSetRecoilState(snackbarState);
   const queryClient = useQueryClient();
-  const { deleteData } = useFetch(api.baseUrl);
+  const { deleteData } = useFetch(mainUrl.baseUrl);
 
   return useMutation<DeleteTodoData, Error, DeleteTodoVariable, unknown>(
     async ({ id }) => {

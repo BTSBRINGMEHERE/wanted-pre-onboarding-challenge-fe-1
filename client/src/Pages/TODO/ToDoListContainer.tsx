@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import styled, { keyframes } from "styled-components";
-import FormContainer from "../../Components/FormContainer";
-import Snackbar from "../../Components/Snackbar/Snackbar";
-import { snackbarState } from "../../lib/atoms/snackbar";
-import useControlTodoForm from "../../lib/hooks/useControlTodoForm";
-import useCreateTodo from "../../lib/hooks/useCreateTodo";
-import ToDoList from "./ToDoList";
+import styled from "styled-components";
+import { FormContainer } from "@/Components";
+import { useControlTodoForm, useCreateTodo } from "@/lib/hooks";
+import { ToDoList } from "@/Pages";
 
 const Wrapper = styled.div`
   width: 100%;

@@ -1,5 +1,4 @@
-import React from "react";
-import SkeletonForTodoListItem from "./SkeletonForTodoListItem";
+import { SkeletonForTodoListItem } from "@/Pages";
 
 interface ISkeletonForTodoListProps {}
 

@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import FormContainer from "../../Components/FormContainer";
-import useLogin from "../../lib/hooks/useLogin";
-import useSetUserState from "../../lib/hooks/useSetUserState";
-import useValidation from "../../lib/hooks/useValidation";
+import { FormContainer } from "@/Components";
+import { useLogin, useSetUserState, useValidation } from "@/lib/hooks";
 
 const Wrapper = styled.div`
   display: flex;

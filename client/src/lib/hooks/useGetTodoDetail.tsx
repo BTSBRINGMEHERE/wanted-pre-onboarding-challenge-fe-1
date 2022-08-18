@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import useFetch from "./useFetch";
-import { api } from "../http/api";
+import { mainUrl } from "../http/api";
 
 interface TodoDetailData {
   title: string;
@@ -16,7 +16,7 @@ interface TodoDetailVariable {
 }
 
 const useGetTodoDetail = ({ id }: TodoDetailVariable) => {
-  const { getData } = useFetch(api.baseUrl);
+  const { getData } = useFetch(mainUrl.baseUrl);
 
   return useQuery<TodoDetailData, Error>(["todo", id], async () => {
     const { data } = await getData(`/todos/${id}`);

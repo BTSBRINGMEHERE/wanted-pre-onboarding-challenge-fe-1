@@ -1,11 +1,8 @@
-import { useQueryClient } from "@tanstack/react-query";
 import React, { useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import DeleteAlertModal from "../../Components/Modals/DeleteModal";
-import useDeleteTodo from "../../lib/hooks/useDeleteTodo";
-import useGetLocalDate from "../../lib/hooks/useGetLocalDate";
-import useModalContorl from "../../lib/hooks/useModalContorl";
+import { DeleteModal } from "@/Components";
+import { useDeleteTodo, useGetLocalDate, useModalContorl } from "@/lib/hooks";
 
 const Todo = styled.li<{ todoId: boolean }>`
   cursor: pointer;
@@ -113,7 +110,7 @@ const ToDoItem = ({ todo }: IToDoItemProps) => {
   return (
     <>
       {isModal && (
-        <DeleteAlertModal setIsModal={setIsModal} setIsConfirm={setIsConfirm} />
+        <DeleteModal setIsModal={setIsModal} setIsConfirm={setIsConfirm} />
       )}
       <Todo
         data-id={todo.id}

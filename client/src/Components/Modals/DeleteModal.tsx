@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Modal from "./Modal";
+import { Modal } from "@/Components";
 
 const ModalContainer = styled.div`
   display: flex;

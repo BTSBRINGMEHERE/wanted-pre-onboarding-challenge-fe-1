@@ -1,13 +1,9 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { isReadable } from "stream";
-import Snackbar from "../../Components/Snackbar/Snackbar";
-import { snackbarState } from "../../lib/atoms/snackbar";
-import { userState } from "../../lib/atoms/user";
-import ToDoListContainer from "../TODO/ToDoListContainer";
-
-interface IMainProps {}
+import { Snackbar } from "@/Components";
+import { snackbarState, userState } from "@/lib/atoms";
+import { ToDoListContainer } from "@/Pages";
 
 const Main = () => {
   const navigate = useNavigate();

@@ -1,6 +1,5 @@
-import React from "react";
-import styled, { css, keyframes } from "styled-components";
-import Skeleton from "../../../Components/Skeleton";
+import styled from "styled-components";
+import { Skeleton } from "@/Components";
 
 const Todo = styled.li`
   position: relative;

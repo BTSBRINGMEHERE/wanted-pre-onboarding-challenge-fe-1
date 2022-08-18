@@ -1,0 +1,1 @@
+export { mainUrl } from "./api";

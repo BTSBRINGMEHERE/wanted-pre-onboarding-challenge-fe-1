@@ -1,3 +1,3 @@
-export const api = {
-  baseUrl: "http://localhost:8080",
+export const mainUrl = {
+  baseUrl: "http://localhost:8080"
 };

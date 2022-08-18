@@ -1,14 +1,16 @@
 import { Route, Routes } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import MainLayout from "../Layouts/MainLayout";
-import { userState } from "../lib/atoms/user";
-import Login from "../Pages/Auth/Login";
-import Logout from "../Pages/Auth/Logout";
-import PageNotFound from "../Pages/Auth/PageNotFound";
-import SignUp from "../Pages/Auth/SignUp";
-import Main from "../Pages/Main/Main";
-import ToDoDetail from "../Pages/TODO/Detail/ToDoDetailContainer";
-import ProtectRouter from "./ProtectRouter";
+import { MainLayout } from "@/Layouts";
+import { userState } from "@/lib/atoms";
+import {
+  Login,
+  Logout,
+  PageNotFound,
+  SignUp,
+  Main,
+  ToDoDetailContainer
+} from "@/Pages";
+import { ProtectRouter } from "@/Routes";
 
 const Routers = () => {
   const { isLogin } = useRecoilValue(userState);
@@ -21,7 +23,7 @@ const Routers = () => {
           }
         >
           <Route path="/" element={<Main />}>
-            <Route path=":todoId" element={<ToDoDetail />} />
+            <Route path=":todoId" element={<ToDoDetailContainer />} />
           </Route>
           <Route path="/logout" element={<Logout />} />
         </Route>

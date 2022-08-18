@@ -14,13 +14,12 @@ interface DeleteTodoData {
 const useDeleteTodo = () => {
   const setSnackbarQueue = useSetRecoilState(snackbarState);
   const queryClient = useQueryClient();
-  const { deleteData } = useFetch(mainUrl.baseUrl);
+  const { deleteData } = useFetch<DeleteTodoVariable, DeleteTodoData>(
+    mainUrl.baseUrl
+  );
 
   return useMutation<DeleteTodoData, Error, DeleteTodoVariable, unknown>(
-    async ({ id }) => {
-      const { data } = await deleteData(`/todos/${id}`);
-      return data;
-    },
+    ({ id }) => deleteData(`/todos/${id}`),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["todoList"]);

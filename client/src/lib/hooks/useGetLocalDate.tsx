@@ -1,6 +1,3 @@
-import { create } from "domain";
-import React from "react";
-
 const useGetLocalDate = () => {
   const handleUTCTimeToLocalTime = (date: string) => {
     const createDate = new Date(date);
@@ -12,7 +9,7 @@ const useGetLocalDate = () => {
     const time = {
       minute: Math.floor((fromNowToSecond % 3600) / 60),
       hour: Math.floor(fromNowToSecond / 3600),
-      day: Math.floor(fromNowToSecond / (3600 * 24)),
+      day: Math.floor(fromNowToSecond / (3600 * 24))
     };
 
     if (time.hour < 1) {

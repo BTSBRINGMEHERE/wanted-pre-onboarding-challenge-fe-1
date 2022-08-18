@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 
-interface IuseControlTodoFormProps {}
-
 const useControlTodoForm = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -20,7 +18,7 @@ const useControlTodoForm = () => {
     content,
     setContent,
     handleTitleChange,
-    handleContentChange,
+    handleContentChange
   };
 };
 

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { useSetUserState } from "@/lib/hooks";
-import { Routers } from "@/Routes";
+import { useSetUserState } from "./lib/hooks";
+import { Routers } from "./Routes";
 
 function App() {
   const { setUserState } = useSetUserState();

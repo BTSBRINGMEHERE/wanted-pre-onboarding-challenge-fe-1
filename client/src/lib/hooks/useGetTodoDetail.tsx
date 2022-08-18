@@ -16,12 +16,11 @@ interface TodoDetailVariable {
 }
 
 const useGetTodoDetail = ({ id }: TodoDetailVariable) => {
-  const { getData } = useFetch(mainUrl.baseUrl);
+  const { getData } = useFetch<unknown, TodoDetailData>(mainUrl.baseUrl);
 
-  return useQuery<TodoDetailData, Error>(["todo", id], async () => {
-    const { data } = await getData(`/todos/${id}`);
-    return data;
-  });
+  return useQuery<TodoDetailData, Error>(["todo", id], () =>
+    getData(`/todos/${id}`)
+  );
 };
 
 export default useGetTodoDetail;

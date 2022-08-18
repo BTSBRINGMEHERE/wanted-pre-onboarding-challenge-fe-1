@@ -22,13 +22,12 @@ interface UpdateTodoData {
 const useUpdateTodo = () => {
   const setSnackbarQueue = useSetRecoilState(snackbarState);
   const queryClient = useQueryClient();
-  const { putData } = useFetch(mainUrl.baseUrl);
+  const { putData } = useFetch<UpdateTodoVariable["body"], UpdateTodoData>(
+    mainUrl.baseUrl
+  );
 
   return useMutation<UpdateTodoData, Error, UpdateTodoVariable, unknown>(
-    async ({ id, body }) => {
-      const { data } = await putData(`/todos/${id}`, body);
-      return data;
-    },
+    async ({ id, body }) => await putData(`/todos/${id}`, body),
     {
       onSuccess: (data) => {
         queryClient.invalidateQueries(["todoList"]);

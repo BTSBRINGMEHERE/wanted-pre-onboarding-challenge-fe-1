@@ -13,13 +13,10 @@ interface SignupVariable {
 }
 
 const useSignup = () => {
-  const { postData } = useFetch(mainUrl.baseUrl);
+  const { postData } = useFetch<SignupVariable, SignupData>(mainUrl.baseUrl);
 
-  return useMutation<SignupData, Error, SignupVariable, unknown>(
-    async (body) => {
-      const { data } = await postData("/users/create", body);
-      return data;
-    }
+  return useMutation<SignupData, Error, SignupVariable, unknown>((body) =>
+    postData("/users/create", body)
   );
 };
 

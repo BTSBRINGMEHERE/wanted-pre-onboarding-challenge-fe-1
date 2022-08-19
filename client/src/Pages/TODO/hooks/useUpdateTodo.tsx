@@ -39,7 +39,7 @@ const useUpdateTodo = () => {
           {
             id: Date.now().toString(),
             message: "⚠️ 할 일을 수정했습니다.",
-            type: "caution"
+            type: "notice"
           }
         ]);
       }

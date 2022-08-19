@@ -28,14 +28,16 @@ const useGetTodos = () => {
         return data.sort((a, b) => (a > b ? 1 : -1));
       },
       onError: (error) => {
-        setSnackbarQueue((pre) => [
-          ...pre,
-          {
-            id: Date.now().toString(),
-            message: "⛔️ 할 일 목록을 불러올수가 없네요.",
-            type: "warning"
-          }
-        ]);
+        if (error.response?.status === 400) {
+          setSnackbarQueue((pre) => [
+            ...pre,
+            {
+              id: Date.now().toString(),
+              message: "⛔️ 할 일 목록을 불러올수가 없네요.",
+              type: "warning"
+            }
+          ]);
+        }
       }
     }
   );

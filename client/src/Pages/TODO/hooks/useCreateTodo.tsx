@@ -3,6 +3,7 @@ import { useFetch } from "@/lib/hooks";
 import { mainUrl } from "@/lib/http";
 import { useSetRecoilState } from "recoil";
 import { snackbarState } from "@/lib/atoms";
+import { AxiosError } from "axios";
 
 interface CreateTodoData {
   title: string;
@@ -24,7 +25,7 @@ const useCreateTodo = () => {
   );
   const queryClient = useQueryClient();
 
-  return useMutation<CreateTodoData, Error, CreateTodoVariable, unknown>(
+  return useMutation<CreateTodoData, AxiosError, CreateTodoVariable, unknown>(
     (body) => postData("/todos", body),
     {
       onSuccess: () => {
@@ -38,7 +39,18 @@ const useCreateTodo = () => {
           }
         ]);
       },
-      onError: (error) => {}
+      onError: (error) => {
+        if (error.response?.status) {
+          setSnackbarQueue((pre) => [
+            ...pre,
+            {
+              id: Date.now().toString(),
+              message: "⛔️ 할 일을 등록할 수가 없습니다.",
+              type: "notice"
+            }
+          ]);
+        }
+      }
     }
   );
 };

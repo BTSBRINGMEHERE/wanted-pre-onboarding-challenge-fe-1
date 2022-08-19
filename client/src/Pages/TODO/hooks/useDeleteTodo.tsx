@@ -28,7 +28,7 @@ const useDeleteTodo = () => {
           {
             id: Date.now().toString(),
             message: "❌ 할 일을 삭제했습니다.",
-            type: "warning"
+            type: "notice"
           }
         ]);
       }

@@ -1,9 +1,9 @@
 import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import useFetch from "./useFetch";
-import { mainUrl } from "../http/api";
+import { useFetch } from "@/lib/hooks";
+import { mainUrl } from "@/lib/http";
 import { useSetRecoilState } from "recoil";
-import { snackbarState } from "../atoms/snackbar";
+import { snackbarState } from "@/lib/atoms";
 
 interface DeleteTodoVariable {
   id: string;

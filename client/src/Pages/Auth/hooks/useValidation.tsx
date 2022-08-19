@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 
-interface IuseValidationProps {}
-
 const useValidation = () => {
   const [email, setEmail] = useState("");
   const [isEmail, setIsEmail] = useState<boolean | null>(null);
@@ -12,6 +10,13 @@ const useValidation = () => {
 
   const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    setEmail(value);
+
+    if (value === "") {
+      setIsEmail(null);
+      return;
+    }
+
     const check = value.match(
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     );
@@ -21,12 +26,16 @@ const useValidation = () => {
     } else {
       setIsEmail(true);
     }
-
-    setEmail(value);
   };
 
   const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    setPassword(value);
+
+    if (value === "") {
+      setIsPassword(null);
+      return;
+    }
 
     const check = value.length >= 8;
 
@@ -35,12 +44,16 @@ const useValidation = () => {
     } else {
       setIsPassword(false);
     }
-
-    setPassword(value);
   };
 
   const onPassword2Change = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    setPassword2(value);
+
+    if (value === "") {
+      setIsPassword2(null);
+      return;
+    }
 
     const check = value === password;
 
@@ -49,8 +62,6 @@ const useValidation = () => {
     } else {
       setIsPassword2(false);
     }
-
-    setPassword2(value);
   };
 
   return {

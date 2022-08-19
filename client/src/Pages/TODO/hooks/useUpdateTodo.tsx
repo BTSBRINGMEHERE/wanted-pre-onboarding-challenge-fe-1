@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSetRecoilState } from "recoil";
-import { snackbarState } from "../atoms/snackbar";
-import { mainUrl } from "../http/api";
-import useFetch from "./useFetch";
+import { snackbarState } from "@/lib/atoms";
+import { mainUrl } from "@/lib/http";
+import { useFetch } from "@/lib/hooks";
 
 interface UpdateTodoVariable {
   id: string;
@@ -11,13 +11,15 @@ interface UpdateTodoVariable {
     content: string;
   };
 }
-
-interface UpdateTodoData {
+interface Todo {
   title: string;
   content: string;
   id: string;
   createdAt: string;
   updatedAt: string;
+}
+interface UpdateTodoData {
+  data: Todo;
 }
 const useUpdateTodo = () => {
   const setSnackbarQueue = useSetRecoilState(snackbarState);
@@ -29,7 +31,7 @@ const useUpdateTodo = () => {
   return useMutation<UpdateTodoData, Error, UpdateTodoVariable, unknown>(
     async ({ id, body }) => await putData(`/todos/${id}`, body),
     {
-      onSuccess: (data) => {
+      onSuccess: ({ data }) => {
         queryClient.invalidateQueries(["todoList"]);
         queryClient.invalidateQueries(["todo", data.id]);
         setSnackbarQueue((pre) => [

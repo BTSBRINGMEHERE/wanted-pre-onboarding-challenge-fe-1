@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
-import { userState } from "../atoms/user";
+import { userState } from "@/lib/atoms";
 
 interface IuseRemoveUserStateProps {}
 

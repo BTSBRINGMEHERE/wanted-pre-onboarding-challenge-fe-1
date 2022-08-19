@@ -1,7 +1,7 @@
 import React from "react";
 import { useMutation } from "@tanstack/react-query";
-import useFetch from "./useFetch";
-import { mainUrl } from "../http/api";
+import { useFetch } from "@/lib/hooks";
+import { mainUrl } from "@/lib/http";
 
 interface SignupData {
   message: string;

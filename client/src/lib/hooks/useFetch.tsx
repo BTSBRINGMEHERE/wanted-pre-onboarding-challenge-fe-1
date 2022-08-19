@@ -1,5 +1,5 @@
 import { useRecoilValue } from "recoil";
-import { userState } from "../atoms/user";
+import { userState } from "@/lib/atoms";
 import axios from "axios";
 
 const useFetch = <TBody, TData extends unknown>(baseUrl: string) => {

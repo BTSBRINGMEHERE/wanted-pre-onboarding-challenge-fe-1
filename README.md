@@ -742,4 +742,4 @@ https://user-images.githubusercontent.com/44064122/183724188-9b43a8f6-0418-4d46-
 
 ## 부록
 
-[과제 설명](./documents/assginment.md)
+[과제 설명](https://github.com/starkoora/wanted-pre-onboarding-challenge-fe-1-api)

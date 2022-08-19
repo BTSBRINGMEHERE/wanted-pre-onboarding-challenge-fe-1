@@ -1,6 +1,7 @@
 # just do it!
 
 - [just do it!](#just-do-it)
+  - [just do it 소개 영상](#just-do-it-소개-영상)
   - [설치, 실행 방법](#설치-실행-방법)
     - [설치](#설치)
     - [실행](#실행)
@@ -26,6 +27,10 @@
   - [한계점 및 개선 사항](#한계점-및-개선-사항)
   - [자기 소개](#자기-소개)
   - [부록](#부록)
+
+## just do it 소개 영상
+
+[소개영상](https://youtu.be/SJkU0z8lTgE)
 
 ## 설치, 실행 방법
 
@@ -111,6 +116,141 @@ Now listening on port 8080
    - tsconfig.json에서 경로 설정을 하여 사용했지만 갑자기 에러가 발생했고 CRA에서는 해결하기 어렵다고 판단되여 설치했습니다.
 
 ## 폴더 구조 설명
+
+폴더 구조를 만들기 어려웠습니다. 가장 고민했던 부분을 설명합니다.
+
+1. hooks는 lib/hooks와 Page/\*/hooks로 나누었습니다.
+   - 특강 때 글로벌로 사용되는 hook과 뷰에서 분리한 기능으로써의 hook을 가까운 곳에 위치하면 좋겠다고 생각했습니다.
+
+```
+├── Pages
+│   ├── Auth
+│   │   ├── Login.tsx
+│   │   ├── Logout.tsx
+│   │   ├── PageNotFound.tsx
+│   │   ├── SignUp.tsx
+│   │   ├── hooks
+│   │   │   ├── index.ts
+│   │   │   ├── useLogin.tsx
+│   │   │   ├── useRemoveUserState.tsx
+│   │   │   ├── useSetUserState.tsx
+│   │   │   ├── useSignup.tsx
+│   │   │   └── useValidation.tsx
+```
+
+2. 컴포넌트와 페이지, 라우터 폴더를 역할별로 나누었습니다.
+
+   - 컴포넌트 폴더는 전역으로 재사용되는 리액트 컴포넌트가 들어있습니다.
+   - 페이지는 뷰의 역할을 하는 컴포넌트가 들어있습니다.
+   - 라우터는 Router 역할을 하는 컴포넌트가 들어있습니다.
+
+3. lib(라이브러리)에 스타일, atoms, hooks 등 헬퍼 함수가 있습니다.
+   - 글로벌로 사용되는 헬퍼 함수는 라이브러리 폴더에 넣었습니다.
+   - 별다른 이유는 없습니다. 이전 프로젝트에서 lib가 없이 src 바로 아래 위치했는데 폴더가 너무 지저분해져서 이렇게 했습니다.
+
+- 전체 폴더
+
+```
+.
+├── craco.config.js
+├── node_modules
+├── package-lock.json
+├── package.json
+├── public
+│   ├── favicon.ico
+│   ├── index.html
+│   ├── logo192.png
+│   ├── logo512.png
+│   ├── manifest.json
+│   └── robots.txt
+├── src
+│   ├── App.tsx
+│   ├── Components
+│   │   ├── FormContainer.tsx
+│   │   ├── Header.tsx
+│   │   ├── Modals
+│   │   │   ├── DeleteModal.tsx
+│   │   │   └── Modal.tsx
+│   │   ├── Skeleton.tsx
+│   │   ├── Snackbar
+│   │   │   └── Snackbar.tsx
+│   │   └── index.ts
+│   ├── Layouts
+│   │   ├── MainLayout.tsx
+│   │   └── index.ts
+│   ├── Pages
+│   │   ├── Auth
+│   │   │   ├── Login.tsx
+│   │   │   ├── Logout.tsx
+│   │   │   ├── PageNotFound.tsx
+│   │   │   ├── SignUp.tsx
+│   │   │   ├── hooks
+│   │   │   │   ├── index.ts
+│   │   │   │   ├── useLogin.tsx
+│   │   │   │   ├── useRemoveUserState.tsx
+│   │   │   │   ├── useSetUserState.tsx
+│   │   │   │   ├── useSignup.tsx
+│   │   │   │   └── useValidation.tsx
+│   │   │   ├── index.ts
+│   │   │   └── styles
+│   │   │       ├── FormButtonStyled.tsx
+│   │   │       ├── FormDefaultStyle.tsx
+│   │   │       ├── FormErrorStyle.tsx
+│   │   │       └── index.ts
+│   │   ├── Main
+│   │   │   ├── Main.tsx
+│   │   │   └── index.ts
+│   │   ├── TODO
+│   │   │   ├── Detail
+│   │   │   │   ├── ToDoDetail.tsx
+│   │   │   │   ├── ToDoDetailContainer.tsx
+│   │   │   │   └── ToDoUpdateForm.tsx
+│   │   │   ├── Skeleton
+│   │   │   │   ├── SkeletonForTodoList.tsx
+│   │   │   │   └── SkeletonForTodoListItem.tsx
+│   │   │   ├── ToDoCreateForm.tsx
+│   │   │   ├── ToDoItem.tsx
+│   │   │   ├── ToDoList.tsx
+│   │   │   ├── ToDoListContainer.tsx
+│   │   │   ├── hooks
+│   │   │   │   ├── index.ts
+│   │   │   │   ├── useControlTodoForm.tsx
+│   │   │   │   ├── useCreateTodo.tsx
+│   │   │   │   ├── useDeleteTodo.tsx
+│   │   │   │   ├── useGetTodoDetail.tsx
+│   │   │   │   ├── useGetTodos.tsx
+│   │   │   │   └── useUpdateTodo.tsx
+│   │   │   └── index.ts
+│   │   └── index.ts
+│   ├── Routes
+│   │   ├── ProtectRouter.tsx
+│   │   ├── Routers.tsx
+│   │   └── index.ts
+│   ├── index.tsx
+│   ├── lib
+│   │   ├── atoms
+│   │   │   ├── index.ts
+│   │   │   ├── snackbar.ts
+│   │   │   └── user.ts
+│   │   ├── hooks
+│   │   │   ├── index.ts
+│   │   │   ├── useChangeUTCToLocalDate.tsx
+│   │   │   ├── useFetch.tsx
+│   │   │   └── useModalContorl.tsx
+│   │   ├── http
+│   │   │   ├── api.ts
+│   │   │   └── index.ts
+│   │   └── styled
+│   │       ├── GlobalStyle.tsx
+│   │       ├── index.ts
+│   │       └── style.ts
+│   ├── react-app-env.d.ts
+│   ├── reportWebVitals.ts
+│   ├── setupTests.ts
+│   └── styled.d.ts
+├── tsconfig.json
+└── tsconfig.paths.json
+```
 
 ## 과제 진행 시 고민한 부분
 

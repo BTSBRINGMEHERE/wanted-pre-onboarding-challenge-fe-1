@@ -81,7 +81,7 @@ const ToDoItem = ({ todo }: IToDoItemProps) => {
     if (todoId === id) {
       navigate(`/`, { replace: true });
     } else {
-      navigate(`/${id}`, { replace: true });
+      navigate(`/${id}`);
     }
   };
 

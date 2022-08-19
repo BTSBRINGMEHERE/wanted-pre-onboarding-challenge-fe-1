@@ -22,7 +22,7 @@ const Routers = () => {
             <ProtectRouter isAllow={isLogin} redirectPath={"/auth/login"} />
           }
         >
-          <Route path="/" element={<Main />}>
+          <Route path="" element={<Main />}>
             <Route path=":todoId" element={<ToDoDetailContainer />} />
           </Route>
         </Route>

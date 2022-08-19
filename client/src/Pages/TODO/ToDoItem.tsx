@@ -86,7 +86,7 @@ const ToDoItem = ({ todo }: IToDoItemProps) => {
   };
 
   const handleDeleteTodo = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+    e.stopPropagation();
     const id = e.currentTarget.closest("li")?.dataset.id;
     if (id) {
       setId(id);

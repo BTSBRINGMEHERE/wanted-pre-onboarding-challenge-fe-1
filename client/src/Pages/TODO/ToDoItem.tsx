@@ -2,11 +2,8 @@ import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { DeleteModal } from "@/Components";
-import {
-  useDeleteTodo,
-  useChangeUTCToLocalDate,
-  useModalContorl
-} from "@/lib/hooks";
+import { useChangeUTCToLocalDate, useModalContorl } from "@/lib/hooks";
+import { useDeleteTodo } from "./hooks";
 
 const Todo = styled.li<{ todoId: boolean }>`
   cursor: pointer;

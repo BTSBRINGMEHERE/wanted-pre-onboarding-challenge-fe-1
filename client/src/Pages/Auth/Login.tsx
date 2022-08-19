@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FormContainer } from "@/Components";
-import { useLogin, useSetUserState, useValidation } from "@/lib/hooks";
+import { useLogin, useSetUserState, useValidation } from "./hooks";
+import { AuthButton, AuthInput, AuthTitleLabel, ErrorLabel } from "./styles";
 
 const Wrapper = styled.div`
   display: flex;
@@ -13,25 +14,8 @@ const Wrapper = styled.div`
   height: 80vh;
   margin: 0 auto;
   form {
-    ${({ theme }) => theme.mixin.form()}
+    ${({ theme }) => theme.mixin.form()};
     width: 80%;
-  }
-  input {
-    ${({ theme }) => theme.mixin.input()}
-  }
-  label {
-    ${({ theme }) => theme.mixin.label(theme)}
-  }
-`;
-
-const Button = styled(FormContainer.Button)`
-  ${({ theme }) => theme.mixin.button(theme)};
-  width: 100%;
-  margin: 1rem auto;
-  &:hover {
-    color: ${({ theme }) => theme.color.fontSecond};
-    border: 1px solid ${({ theme }) => theme.color.main};
-    background-color: ${({ theme }) => theme.color.main};
   }
 `;
 
@@ -48,13 +32,12 @@ const Login = () => {
     onEmailChange,
     onPasswordChange
   } = useValidation();
+
   const { isSuccess, mutate: loginMutate } = useLogin();
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const body = { email, password };
-
     loginMutate(body);
   };
 
@@ -81,8 +64,9 @@ const Login = () => {
   return (
     <Wrapper>
       <FormContainer onSubmit={onSubmit}>
-        <FormContainer.Label htmlFor="email">이메일</FormContainer.Label>
-        <FormContainer.Input
+        <AuthTitleLabel htmlFor="email">이메일</AuthTitleLabel>
+        <AuthInput
+          isEmail={isEmail}
           type="text"
           id="email"
           name="email"
@@ -90,8 +74,11 @@ const Login = () => {
           onChange={onEmailChange}
           placeholder="이메일을 입력해주세요."
         />
-        <FormContainer.Label htmlFor="password">비밀번호</FormContainer.Label>
-        <FormContainer.Input
+        <ErrorLabel isError={isEmail} role={"alert"}>
+          이메일의 형식이 아닙니다.
+        </ErrorLabel>
+        <AuthTitleLabel htmlFor="password">비밀번호</AuthTitleLabel>
+        <AuthInput
           type="password"
           id="password"
           name="password"
@@ -99,7 +86,10 @@ const Login = () => {
           onChange={onPasswordChange}
           placeholder="비밀번호를 입력해주세요."
         />
-        <Button disabled={isDisabled}>로그인</Button>
+        <ErrorLabel isError={isPassword}>
+          비밀번호는 8자 이상 입력해야합니다.
+        </ErrorLabel>
+        <AuthButton disabled={isDisabled}>로그인</AuthButton>
       </FormContainer>
     </Wrapper>
   );

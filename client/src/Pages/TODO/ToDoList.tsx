@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useGetTodos } from "@/lib/hooks";
+import { useGetTodos } from "./hooks";
 import { SkeletonForTodoList, ToDoItem } from "@/Pages";
 
 const Wrapper = styled.div`

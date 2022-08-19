@@ -3,13 +3,13 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { FormContainer, DeleteModal } from "@/Components";
+import { useModalContorl } from "@/lib/hooks";
 import {
   useControlTodoForm,
   useDeleteTodo,
   useGetTodoDetail,
-  useModalContorl,
   useUpdateTodo
-} from "@/lib/hooks";
+} from "../hooks";
 
 const Wrapper = styled.div<{ isUpdate: boolean }>`
   box-sizing: border-box;
@@ -20,7 +20,7 @@ const Wrapper = styled.div<{ isUpdate: boolean }>`
   left: 0;
   bottom: 0;
   right: 0;
-  height: 33.8rem;
+  height: 40rem;
   width: 100%;
   padding: 1rem;
   border-radius: 0.5rem;
@@ -29,6 +29,7 @@ const Wrapper = styled.div<{ isUpdate: boolean }>`
     isUpdate ? theme.color.fontSecond : theme.color.fontMain};
   form {
     ${({ theme }) => theme.mixin.form()}
+    height: 100%;
   }
   input {
     ${({ theme }) => theme.mixin.input()}
@@ -38,7 +39,7 @@ const Wrapper = styled.div<{ isUpdate: boolean }>`
   }
   textarea {
     ${({ theme }) => theme.mixin.textarea()}
-    height: 24rem;
+    height: 100%;
     margin-bottom: 1rem;
   }
   input,
@@ -53,6 +54,10 @@ const Wrapper = styled.div<{ isUpdate: boolean }>`
   h4 {
     font-size: 2rem;
     font-weight: bolder;
+    color: #fff;
+  }
+  p {
+    color: #fff;
   }
 `;
 
@@ -60,24 +65,26 @@ const Footer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  color: #fff;
 `;
 
 const BlurContainer = styled.span<{ isUpdate: boolean }>`
   position: fixed;
   top: 0;
-  height: 33.8rem;
+  left: 0;
+  height: 40rem;
   width: 100%;
-  background-color: ${({ isUpdate }) =>
-    isUpdate ? "rgba(24, 25, 24, 0.858)" : "rgba(255, 255, 255, 0.3)"};
+  background-color: ${({ isUpdate, theme }) =>
+    isUpdate ? "rgba(24, 25, 24, 0.858)" : "#000423cc"};
   z-index: 1;
   backdrop-filter: blur(1rem);
 `;
 
 const ContentWrapper = styled.div`
-  height: 70%;
   overflow-x: hidden;
   overflow-y: auto;
   margin-top: 0.8rem;
+  height: 100%;
   p {
     word-break: break-all;
     font-size: 1.6rem;
@@ -150,7 +157,10 @@ const ToDoDetail = () => {
     }
   };
 
-  const handleUpdateItem = () => {
+  const handleUpdateItem = (
+    e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
     if (todo?.id) {
       const id = todo.id;
       const body = { title, content };
@@ -221,7 +231,7 @@ const ToDoDetail = () => {
           </>
         ) : (
           <>
-            <FormContainer>
+            <FormContainer onSubmit={handleUpdateItem}>
               <FormContainer.Input
                 type="text"
                 id="title"

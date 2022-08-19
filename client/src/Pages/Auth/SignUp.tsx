@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useValidation, useSignup, useSetUserState } from "@/lib/hooks";
+import { useValidation, useSignup, useSetUserState } from "./hooks";
 import { FormContainer } from "@/Components";
+import { AuthButton, AuthInput, AuthTitleLabel, ErrorLabel } from "./styles";
 
 const Wrapper = styled.div`
   display: flex;
@@ -14,34 +15,16 @@ const Wrapper = styled.div`
     ${({ theme }) => theme.mixin.form()}
     width: 80%;
   }
-  label {
-    ${({ theme }) => theme.mixin.label(theme)}
-  }
-  input {
-    ${({ theme }) => theme.mixin.input()}
-  }
   textarea {
     ${({ theme }) => theme.mixin.textarea()}
   }
-  button {
-    ${({ theme }) => theme.mixin.button(theme)}
-    margin: 1rem auto;
-    width: 100%;
-    &:hover {
-      color: ${({ theme }) => theme.color.fontSecond};
-      border: 1px solid ${({ theme }) => theme.color.main};
-      background-color: ${({ theme }) => theme.color.main};
-    }
-  }
 `;
-
-interface ISignUpProps {}
 
 const SignUp = () => {
   const navigate = useNavigate();
   const [isDisabled, setIsDisabled] = useState(false);
   const { setLocalStorage, setUserState } = useSetUserState();
-  const { data, mutate, isSuccess } = useSignup();
+  const { data, mutate: signupMutate, isSuccess } = useSignup();
   const {
     email,
     isEmail,
@@ -57,7 +40,7 @@ const SignUp = () => {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const body = { email, password };
-    mutate(body);
+    signupMutate(body);
   };
 
   useEffect(() => {
@@ -83,8 +66,8 @@ const SignUp = () => {
   return (
     <Wrapper>
       <FormContainer onSubmit={onSubmit}>
-        <FormContainer.Label htmlFor="email">이메일</FormContainer.Label>
-        <FormContainer.Input
+        <AuthTitleLabel htmlFor="email">이메일</AuthTitleLabel>
+        <AuthInput
           type="text"
           id="email"
           name="email"
@@ -93,10 +76,10 @@ const SignUp = () => {
           placeholder="이메일을 입력하세요."
         />
         {isEmail !== null && !isEmail && (
-          <FormContainer.Label>올바른 이메일이 아닙니다.</FormContainer.Label>
+          <ErrorLabel role="alert">이메일이 아닙니다.</ErrorLabel>
         )}
-        <FormContainer.Label htmlFor="password">비밀번호</FormContainer.Label>
-        <FormContainer.Input
+        <AuthTitleLabel htmlFor="password">비밀번호</AuthTitleLabel>
+        <AuthInput
           type="password"
           id="password"
           name="password"
@@ -105,14 +88,10 @@ const SignUp = () => {
           placeholder="비밀번호를 입력하세요"
         />
         {isPassword !== null && !isPassword && (
-          <FormContainer.Label>
-            비밀번호는 8자 이상이어야합니다.
-          </FormContainer.Label>
+          <ErrorLabel role="alert">비밀번호는 8자 이상이어야합니다.</ErrorLabel>
         )}
-        <FormContainer.Label htmlFor="password2">
-          비밀번호 확인
-        </FormContainer.Label>
-        <FormContainer.Input
+        <AuthTitleLabel htmlFor="password2">비밀번호 확인</AuthTitleLabel>
+        <AuthInput
           type="password"
           id="password2"
           name="password2"
@@ -121,13 +100,11 @@ const SignUp = () => {
           placeholder="앞에서 입력한 비밀번호를 한 번 더 입력하세요."
         />
         {isPassword2 !== null && !isPassword2 && (
-          <FormContainer.Label>
+          <ErrorLabel role="alert">
             앞에서 입력한 비밀번호와 다릅니다.
-          </FormContainer.Label>
+          </ErrorLabel>
         )}
-        <FormContainer.Button disabled={isDisabled}>
-          가입하기
-        </FormContainer.Button>
+        <AuthButton disabled={isDisabled}>가입하기</AuthButton>
       </FormContainer>
     </Wrapper>
   );

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useRemoveUserState } from "@/lib/hooks";
+import { useRemoveUserState } from "./hooks";
 
 const Wrapper = styled.div`
   display: flex;

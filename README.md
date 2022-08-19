@@ -1051,4 +1051,5 @@ interface Body {
 
 ## 부록
 
+[배운거 다른 프로젝트에도 적용해보기](https://github.com/movie42/ychung-frontend/wiki/API-%ED%98%B8%EC%B6%9C-%ED%95%A8%EC%88%98-%EB%8C%80%EC%88%98%EC%88%A0)  
 [과제 설명](https://github.com/starkoora/wanted-pre-onboarding-challenge-fe-1-api)

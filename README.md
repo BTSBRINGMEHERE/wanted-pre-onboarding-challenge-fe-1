@@ -1,28 +1,166 @@
-# 사전 과제 수행
+# just do it!
 
-- [사전 과제 수행](#사전-과제-수행)
-  - [React Query 사용하여 API 호출하기](#react-query-사용하여-api-호출하기)
-    - [React Query로 API 호출하는 커스텀 훅 만들기](#react-query로-api-호출하는-커스텀-훅-만들기)
-  - [Refactoring](#refactoring)
+- [just do it!](#just-do-it)
+  - [설치, 실행 방법](#설치-실행-방법)
+    - [설치](#설치)
+    - [실행](#실행)
+  - [구현 요구사항](#구현-요구사항)
+    - [Assignment 1 - Login / SignUp](#assignment-1---login--signup)
+    - [Assignment 2 - Todo List](#assignment-2---todo-list)
+  - [사용한 프레임워크 및 라이브러리 설명](#사용한-프레임워크-및-라이브러리-설명)
+  - [폴더 구조 설명](#폴더-구조-설명)
+  - [과제 진행 시 고민한 부분](#과제-진행-시-고민한-부분)
+    - [에러 처리](#에러-처리)
+    - [React Query 사용하여 API 호출하기](#react-query-사용하여-api-호출하기)
+      - [React Query로 API 호출하는 커스텀 훅 만들기](#react-query로-api-호출하는-커스텀-훅-만들기)
     - ["사용자 액션에 따른 적절한 피드백 (UI / UX)" 적용해보기](#사용자-액션에-따른-적절한-피드백-ui--ux-적용해보기)
-      - [스켈레톤 컴포넌트 적용하기](#스켈레톤-컴포넌트-적용하기)
-      - [삭제 버튼을 눌렀을 때, 사용자에게 경고 모달 보여주기](#삭제-버튼을-눌렀을-때-사용자에게-경고-모달-보여주기)
-      - [스낵바로 상태 메시지 보여주기](#스낵바로-상태-메시지-보여주기)
     - [명령형 프로그래밍 -> 선언적 프로그래밍 적용해보기](#명령형-프로그래밍---선언적-프로그래밍-적용해보기)
       - [ProtectRouter를 선언적으로 만들어보기](#protectrouter를-선언적으로-만들어보기)
     - ["적절히 추상화 되지 않은 함수와 컴포넌트" 부분 적용해보기](#적절히-추상화-되지-않은-함수와-컴포넌트-부분-적용해보기)
       - [useFetch를 만들어서 비동기 통신 코드 중복 줄이기](#usefetch를-만들어서-비동기-통신-코드-중복-줄이기)
       - [useCotrolTodoForm에서 form 검증 코드 제거하기](#usecotroltodoform에서-form-검증-코드-제거하기)
       - [FormContainer에 Headless UI 개념 적용해보기](#formcontainer에-headless-ui-개념-적용해보기)
-  - [어플리케이션 동작 예시](#어플리케이션-동작-예시)
-  - [어떻게 설계했나요?](#어떻게-설계했나요)
-  - [어플리케이션을 만들면서 궁금했고 앞으로 개선하고 싶은 부분](#어플리케이션을-만들면서-궁금했고-앞으로-개선하고-싶은-부분)
+    - [기타](#기타)
+      - [왜 response.json()은 왜 any일까요?](#왜-responsejson은-왜-any일까요)
+      - [\<T extends unknown\>은 왜 사용할까?](#t-extends-unknown은-왜-사용할까)
+  - [한계점 및 개선 사항](#한계점-및-개선-사항)
   - [자기 소개](#자기-소개)
   - [부록](#부록)
 
-## React Query 사용하여 API 호출하기
+## 설치, 실행 방법
 
-### React Query로 API 호출하는 커스텀 훅 만들기
+### 설치
+
+루트 폴더에서 다음과 같이 명령어를 입력하세요. 서버와 클라이언트 패키지가 모두 설치됩니다.
+
+```shell
+$ npm run install
+```
+
+### 실행
+
+동시 실행이 되지 않습니다. 터미널을 열고 각각 명령어를 입력하세요. 실행 순서는 관계 없습니다.
+
+- 클라이언트 실행
+  - 도메인 : http://localhost:3000
+
+```shell
+$ npm run client
+
+Compiled successfully!
+```
+
+- 서버 실행
+  - 도메인 : http://localhost:8080
+
+```shell
+$ npm run server
+
+Now listening on port 8080
+```
+
+## 구현 요구사항
+
+### Assignment 1 - Login / SignUp
+
+- /auth 경로에 로그인 / 회원가입 기능을 개발합니다
+  - 로그인, 회원가입을 별도의 경로로 분리해도 무방합니다
+  - [x] 최소한 이메일, 비밀번호 input, 제출 button을 갖도록 구성해주세요
+- 이메일과 비밀번호의 유효성을 확인합니다
+  - [x] 이메일 조건 : 최소 `@`, `.` 포함
+  - [x] 비밀번호 조건 : 8자 이상 입력
+  - [x] 이메일과 비밀번호가 모두 입력되어 있고, 조건을 만족해야 제출 버튼이 활성화 되도록 해주세요
+- 로그인 API를 호출하고, 올바른 응답을 받았을 때 루트 경로로 이동시켜주세요
+  - [x] 응답으로 받은 토큰은 로컬 스토리지에 저장해주세요
+  - [x] 다음 번에 로그인 시 토큰이 존재한다면 루트 경로로 리다이렉트 시켜주세요
+  - [ ] 어떤 경우든 토큰이 유효하지 않다면 사용자에게 알리고 로그인 페이지로 리다이렉트 시켜주세요
+
+### Assignment 2 - Todo List
+
+- Todo List API를 호출하여 Todo List CRUD 기능을 구현해주세요
+  - [x] 목록 / 상세 영역으로 나누어 구현해주세요
+  - [x] Todo 목록을 볼 수 있습니다.
+  - [x] Todo 추가 버튼을 클릭하면 할 일이 추가 됩니다.
+  - [x] Todo 수정 버튼을 클릭하면 수정 모드를 활성화하고, 수정 내용을 제출하거나 취소할 수 있습니다.
+  - [x] Todo 삭제 버튼을 클릭하면 해당 Todo를 삭제할 수 있습니다.
+- 한 화면 내에서 Todo List와 개별 Todo의 상세를 확인할 수 있도록 해주세요.
+  - [x] 새로고침을 했을 때 현재 상태가 유지되어야 합니다.
+  - [x] 개별 Todo를 조회 순서에 따라 페이지 뒤로가기를 통하여 조회할 수 있도록 해주세요.
+- 한 페이지 내에서 새로고침 없이 데이터가 정합성을 갖추도록 구현해주세요
+
+  - [x] 수정되는 Todo의 내용이 목록에서도 실시간으로 반영되어야 합니다
+
+## 사용한 프레임워크 및 라이브러리 설명
+
+1. CRA(Create React App)
+   - 바닥부터 셋팅하기보다 빠른 프로토타입을 만들어 내기 위해서 CRA를 사용하였습니다.
+2. axios
+   - 에러 처리를 조금 더 원활하게 하기 위해서 axios를 사용하였습니다.
+3. styled-components
+   - JS로 css 스타일을 작성하기 위해서 사용하였습니다.
+4. React Router Dom
+   - 리액트에서 도메인을 상태로 관리하기 위해서 사용하였습니다.
+5. React Query
+   - 서버 상태 관리를 편하게 하기 위해서 사용했습니다.
+   - 데이터 정합성 관리를 매우 쉽게 할 수 있게 도와줍니다.
+6. Recoil
+   - 클라이언트 전역 상태 관리를 하기 위해서 사용했습니다.
+   - 사용 방법이 useState와 비슷하여 쉽게 상태를 관리할 수 있습니다.
+7. craco
+   - 경로 뎁스가 깊어지는 것을 해결하기 위해서 설치 사용하였습니다.
+   - tsconfig.json에서 경로 설정을 하여 사용했지만 갑자기 에러가 발생했고 CRA에서는 해결하기 어렵다고 판단되여 설치했습니다.
+
+## 폴더 구조 설명
+
+## 과제 진행 시 고민한 부분
+
+### 에러 처리
+
+에러 처리가 프론트앤드에서 매우 중요함에도 불구하고 매번 어플리케이션을 만들 때마다 등한시 하게 되는 것 같았습니다. 에러 처리를 할 때 Error 생성자를 사용해서 Error를 처리했었는데
+리액트 쿼리를 사용하면서 에러 처리 방법을 찾아보다가 [개발자의 블로그](https://tkdodo.eu/blog/react-query-error-handling)를 보게 되었습니다. 그러던 중 Axios를 사용하면 AxiosError를 사용해서 더 쉽게 에러 처리가 가능하다고 하여 [그 부분을 적용](https://github.com/movie42/wanted-pre-onboarding-challenge-fe-1/commit/809a41a1728db9ee4cf3f4ffccd3cf04ac360b33#diff-5829b620b67eac9db92379f246e480141950629aa4f52d2a0c7f62cad3fabdbc) 하였습니다.
+
+```typescript
+import { AxiosError } from "axios";
+
+const useLogin = () => {
+  return useMutation<LoginData, AxiosError, LoginVariable>(
+    async (body) => await postData(`/users/login`, body),
+    {
+      useErrorBoundary: (error) => {
+        return error.response ? error.response.status >= 500 : false;
+      },
+      onError: (error) => {
+        if (error.response?.status === 400) {
+          setSnackBar((pre) => [
+            ...pre,
+            {
+              id: Date.now().toString(),
+              type: "warning",
+              message: "⛔️ 아이디 또는 비밀번호를 다시 입력해주세요."
+            }
+          ]);
+        }
+      },
+      onSuccess: ({ token }) => {
+        setSnackBar((pre) => [
+          ...pre,
+          {
+            id: Date.now().toString(),
+            type: "notice",
+            message: "✅ 다시 돌아오신것을 환영합니다."
+          }
+        ]);
+        setLocalStorage(token);
+        setUserState((pre) => ({ ...pre, isLogin: false, token }));
+      }
+    }
+  );
+};
+```
+
+### React Query 사용하여 API 호출하기
+
+#### React Query로 API 호출하는 커스텀 훅 만들기
 
 리액트 쿼리를 사용해서 서버 상태를 관리하는 것은 매우 편리합니다. 하지만 이전의 경험으로 보았을 때, API를 호출하는 코드와 뷰가 한 컴포넌트 안에서 있어서 코드가 매우 복잡하고 특정 로직을 수정하려면 복잡한 과정을 거쳐야했습니다.
 
@@ -162,13 +300,9 @@ const ToDoListContainer = () => {
 
 이렇게 관리하는 것의 장점은 호출 API를 변경해야할 때 여러곳을 돌면서 코드를 수정하지 않아도 된다는 점이 좋은 것 같습니다.
 
-## Refactoring
-
 ### "사용자 액션에 따른 적절한 피드백 (UI / UX)" 적용해보기
 
-#### 스켈레톤 컴포넌트 적용하기
-
-https://user-images.githubusercontent.com/44064122/183937833-0f55f0e0-c274-47ff-ba67-64c0bbdd0f3b.mov
+1. 스켈레톤 컴포넌트 적용하기
 
 로딩 화면을 보여주기 위해 스켈레톤 컴포넌트를 만들어 적용하였습니다. React-Query를 사용할 때, 서버 상태를 isLoading, isRefetching, isSuccess에 의존해서 판단합니다. 보통 isLoading, isRefetching이 true이면 로딩 화면이나 스켈레톤을 보여줍니다. 스켈레톤 컴포넌트는 아래의 아티클을 보고 만들었습니다.
 
@@ -176,8 +310,6 @@ https://user-images.githubusercontent.com/44064122/183937833-0f55f0e0-c274-47ff-
 > [더 나은 UX를 위한 React에서 스켈레톤 컴포넌트 만들기](https://ui.toast.com/weekly-pick/ko_20201110)
 
 하지만 문제가 있습니다. 서버 응답이 빠르면 스켈레톤 UI가 그냥 깜박입니다. 이런 깜박임은 사용자에게 좋지 않은 경험을 주는 것 같습니다.
-
-https://user-images.githubusercontent.com/44064122/183937885-72d16362-086b-477c-b508-9e2cfb350456.mov
 
 차라리 서버의 응답이 빠르면 스켈레톤을 동작시키지 않거나 최소 1회는 보이도록 변경하는게 좋다고 생각했습니다. 이 문제를 해결하기 위해서 저는 isSkeleton이라는 상태를 만들고 isLoading, isRefetching이 빠르게 false로 변경되더라도 최소 1회는 동작하도록 코드를 작성하였습니다.
 
@@ -217,7 +349,7 @@ const ToDoList = () => {
 };
 ```
 
-#### 삭제 버튼을 눌렀을 때, 사용자에게 경고 모달 보여주기
+2. 삭제 버튼을 눌렀을 때, 사용자에게 경고 모달 보여주기
 
 https://user-images.githubusercontent.com/44064122/184055711-e172343f-a89d-46dc-8ae4-9fb653a30325.mov
 
@@ -280,122 +412,120 @@ function* handleDelete(e: React.MouseEvent<HTMLButtonElement>) {
 - 어차피 제너레이터의 next를 실행하기 위해서는 isConfirm이 true가 되었을 경우에 실행해야하는데 그러기 위해서 useEffect를 사용해야한다.
 - 이벤트 인자를 넘기는 방법이 애매해진다. 그러려면 또 함수를 만들어야한다.
 
-결론적으로 제너레이터를 사용해서 아이템 삭제 로직을 제어하는 것은 불필요해보였다.
+결론적으로 제너레이터를 사용해서 아이템 삭제 로직을 제어하는 것은 불필요해보였다. 어쩌면 제너레이터 사용 방법을 잘 모르는듯?
 
 </div>
 </details>
 
-#### 스낵바로 상태 메시지 보여주기
-
-https://user-images.githubusercontent.com/44064122/184115407-595fc092-7754-4ecd-bd1e-a3f9e98d9f02.mov
+3. 스낵바로 상태 메시지 보여주기
 
 사용자가 UI의 변경을 일으키는 동작을 했을 경우에 알림을 위해 [스낵바를 구현](./client/src/Components/Snackbar/Snackbar.tsx)하였습니다. 스낵바를 구현하면서 애니메이션에 대해서 몇 가지 배운 것을 정리하려고 합니다.
 
-1. CSS 키프레임
+- CSS 키프레임
 
-- CSS 키프레임은 애니메이션 동작을 제어할 수 있습니다. 'from to'로 처음과 나중을 지정하거나 '0%'로 제어를 할 수 있습니다. 키프레임 안에는 원하는 동작을 작성하면 됩니다. 아래 코드는 styled-components를 사용하여 keyframe을 만들었습니다.
+  - CSS 키프레임은 애니메이션 동작을 제어할 수 있습니다. 'from to'로 처음과 나중을 지정하거나 '0%'로 제어를 할 수 있습니다. 키프레임 안에는 원하는 동작을 작성하면 됩니다. 아래 코드는 styled-components를 사용하여 keyframe을 만들었습니다.
 
-```typescript
-const snackbarTimerKeyframe = keyframes`
+  ```typescript
+  const snackbarTimerKeyframe = keyframes`
+    0%{
+      visibility: visible;
+      transform-origin: top left;
+      transform: scaleX(0%);
+    }
+    100%{
+      visibility: visible;
+      transform-origin: top left;
+      transform: scaleX(100%);
+    }
+    `;
+  ```
+
+  - 키프레임의 작성이 끝나면 움직임을 주고 싶은 컴포넌트에 animation 속성을 등록하면 됩니다.
+  - 애니메이션을 등록할 초기값 설정을 기본 css 속성으로 등록해주는 것이 좋습니다. 그렇지 않으면 애니메이션이 다 끝난 다음에 예상치 못한 동작을 볼 수 있습니다. 아래 코드는 snackbar를 3.5초동안 1번 움직이는 동작을 구현한 코드입니다. 만약에 MessageContainer 스타일 컴포넌트에 "transform: translateX(120%);"으로 초기값이 등록되어있지 않으면 애니메이션이 다 끝난 다음에 스낵바가 화면으로 튀어나오게 됩니다. **애니메이션 동작 후에 예상치 못한 동작이 발생한다면 초기값을 확인해보세요.**
+
+  ```typescript
+  const snackbarTranslaterKeyframe = keyframes`
   0%{
-    visibility: visible;
-    transform-origin: top left;
-    transform: scaleX(0%);
+    transform : translateX(100%);
+  }
+  5%{
+    transform: translateX(0);
+  }
+  95%{
+    transform: translateX(0);
   }
   100%{
-    visibility: visible;
-    transform-origin: top left;
-    transform: scaleX(100%);
+    transform : translateX(100%);
   }
   `;
-```
 
-- 키프레임의 작성이 끝나면 움직임을 주고 싶은 컴포넌트에 animation 속성을 등록하면 됩니다.
-- 애니메이션을 등록할 초기값 설정을 기본 css 속성으로 등록해주는 것이 좋습니다. 그렇지 않으면 애니메이션이 다 끝난 다음에 예상치 못한 동작을 볼 수 있습니다. 아래 코드는 snackbar를 3.5초동안 1번 움직이는 동작을 구현한 코드입니다. 만약에 MessageContainer 스타일 컴포넌트에 "transform: translateX(120%);"으로 초기값이 등록되어있지 않으면 애니메이션이 다 끝난 다음에 스낵바가 화면으로 튀어나오게 됩니다. **애니메이션 동작 후에 예상치 못한 동작이 발생한다면 초기값을 확인해보세요.**
+  const MessageContainer = styled.div`
+    ...
+    transform: translateX(120%);
+    animation: ${snackbarTranslaterKeyframe} 3.5s 1 linear;
+    `;
+  ```
 
-```typescript
-const snackbarTranslaterKeyframe = keyframes`
-0%{
-  transform : translateX(100%);
-}
-5%{
-  transform: translateX(0);
-}
-95%{
-  transform: translateX(0);
-}
-100%{
-  transform : translateX(100%);
-}
-`;
+  - keyframe의 타이밍을 조절하려면 각 keyframe의 간격을 조절하면됩니다. 처음에는 animation-delay로 설정할 수 있을 줄 알았는데 그 방법은 동작하지 않습니다. 애니메이션의 총 동작 시간을 정한 다음에 키프레임 간격으로 동작을 제어하면 됩니다.
 
-const MessageContainer = styled.div`
-  ...
-  transform: translateX(120%);
-  animation: ${snackbarTranslaterKeyframe} 3.5s 1 linear;
-  `;
-```
+- 고민했던 문제
 
-- keyframe의 타이밍을 조절하려면 각 keyframe의 간격을 조절하면됩니다. 처음에는 animation-delay로 설정할 수 있을 줄 알았는데 그 방법은 동작하지 않습니다. 애니메이션의 총 동작 시간을 정한 다음에 키프레임 간격으로 동작을 제어하면 됩니다.
+  - 문제
 
-2. 고민했던 문제
+    어떤 동작을 성공했을 경우에 snackbar 큐에 메시지를 등록하게 됩니다. 그리고 등록된 메시지는 전역상태 값에 따라 스낵바가 화면에 그려집니다.
 
-   - 문제
+    ```typescript
+    // 어떤 동작의 성공
+    {
+      onSuccess: () => {
+        setSnackbarQueue((pre) => [
+          ...pre,
+          {
+            id: Date.now().toString(),
+            message: "✅ 할 일 등록했습니다.",
+            type: "notice"
+          }
+        ]);
+      };
+    }
 
-     어떤 동작을 성공했을 경우에 snackbar 큐에 메시지를 등록하게 됩니다. 그리고 등록된 메시지는 전역상태 값에 따라 스낵바가 화면에 그려집니다.
+    // 스낵바 출력
+    const Main = () => {
+      const snackbarQueue = useRecoilValue(snackbarState);
 
-     ```typescript
-     // 어떤 동작의 성공
-     {
-       onSuccess: () => {
-         setSnackbarQueue((pre) => [
-           ...pre,
-           {
-             id: Date.now().toString(),
-             message: "✅ 할 일 등록했습니다.",
-             type: "notice"
-           }
-         ]);
-       };
-     }
+      return (
+        <Snackbar>
+          {snackbarQueue.map(({ id, message, type }) => (
+            <Snackbar.Item
+              key={id}
+              data-set={id}
+              message={message}
+              type={type}
+            />
+          ))}
+        </Snackbar>
+      );
+    };
+    ```
 
-     // 스낵바 출력
-     const Main = () => {
-       const snackbarQueue = useRecoilValue(snackbarState);
+    그런데 문제는 DOM에 스넥바가 등록 되었지만 동작이 끝난 다음에 사라지지 않고 그대로 DOM에 남아있습니다.
 
-       return (
-         <Snackbar>
-           {snackbarQueue.map(({ id, message, type }) => (
-             <Snackbar.Item
-               key={id}
-               data-set={id}
-               message={message}
-               type={type}
-             />
-           ))}
-         </Snackbar>
-       );
-     };
-     ```
+     <img width="852" alt="스크린샷 2022-08-11 오후 7 20 17" src="https://user-images.githubusercontent.com/44064122/184115239-e8e0458a-edd3-494f-b833-daf0adfc23cd.png">
 
-     그런데 문제는 DOM에 스넥바가 등록 되었지만 동작이 끝난 다음에 사라지지 않고 그대로 DOM에 남아있습니다.
+  - 해결책
 
-      <img width="852" alt="스크린샷 2022-08-11 오후 7 20 17" src="https://user-images.githubusercontent.com/44064122/184115239-e8e0458a-edd3-494f-b833-daf0adfc23cd.png">
+    - 처음에 제가 생각한 해결책은 queue를 구현해서 메시지를 한개씩 제거하는 것이었습니다. 하지만 shift로 큐를 구현할 경우 성능 문제가 있습니다. 그리고 queue의 변경을 react가 감지하면 DOM이 새로 그려질 것이라고 생각하여 queue로 구현하지 않았습니다.
+    - 아주 간단하게 useEffect를 사용해서 snackbar queue가 변경될 때마다 timer를 등록하게 하고 일정 시간이 지나면 queue를 전부 지우는 방법으로 이 문제를 해결했습니다.
 
-   - 해결책
+    ```typescript
+    useEffect(() => {
+      let timer: NodeJS.Timeout;
+      timer = setTimeout(() => setSnackbarQueue([]), 6000);
+      return () => clearTimeout(timer);
+    }, [snackbarQueue]);
+    ```
 
-     - 처음에 제가 생각한 해결책은 queue를 구현해서 메시지를 한개씩 제거하는 것이었습니다. 하지만 shift로 큐를 구현할 경우 성능 문제가 있습니다. 그리고 queue의 변경을 react가 감지하면 DOM이 새로 그려질 것이라고 생각하여 queue로 구현하지 않았습니다.
-     - 아주 간단하게 useEffect를 사용해서 snackbar queue가 변경될 때마다 timer를 등록하게 하고 일정 시간이 지나면 queue를 전부 지우는 방법으로 이 문제를 해결했습니다.
-
-     ```typescript
-     useEffect(() => {
-       let timer: NodeJS.Timeout;
-       timer = setTimeout(() => setSnackbarQueue([]), 6000);
-       return () => clearTimeout(timer);
-     }, [snackbarQueue]);
-     ```
-
-     시간이 지나면 DOM에 있던 HTML 태그가 전부 삭제됩니다.
+    시간이 지나면 DOM에 있던 HTML 태그가 전부 삭제됩니다.
 
 ### 명령형 프로그래밍 -> 선언적 프로그래밍 적용해보기
 
@@ -651,11 +781,16 @@ const useLogin = () => {
   const { postData } = useFetch(api.baseUrl);
 
   return useMutation<LoginData, Error, LoginVariable, unknown>(
-    // 이 부분이 변경되었습니다.ㄴ
+    // 이 부분이 변경되었습니다.
     (body) => postData(`/users/login`, body)
   );
 };
 ```
+
+그런데 만들면서 사용하다보니까 생각보다 What과 How의 분리가 그렇게 잘 된 것 같지 않다는 생각이 들었습니다.
+
+- 일단 http option 변경이 유연하지 않습니다.
+- 이상하게 제네릭 타입에 대한 타입 추론이 자동으로 되지 않습니다.
 
 > 참고한 글
 > [리액트 컴포넌트를 타입스크립트 제네릭 함수처럼 쓰기](https://ui.toast.com/weekly-pick/ko_20210505)
@@ -705,26 +840,60 @@ export default useControlTodoForm;
 
 사실 stlyed-componets는 기존 컴포넌트를 상속 받아 새로운 스타일을 덮어쓸 수 있기 때문에 굳이 스타일을 제거할 필요는 없습니다. 하지만 Headless UI의 개념을 적용해보기 위해서 기능만 남겨 놓았습니다. 스타일은 [mixin](./client/src/lib/styled/style.ts)으로 기본적인 사항을 적용합니다. 나머지 세부 스타일은 styled-components로 제어합니다.
 
-## 어플리케이션 동작 예시
+### 기타
 
-https://user-images.githubusercontent.com/44064122/183724188-9b43a8f6-0418-4d46-bcad-c7de6a4b20c5.mp4
+#### 왜 response.json()은 왜 any일까요?
 
-## 어떻게 설계했나요?
+response.json()를 return 하는 함수에 return type을 Promise\<TData\>로 지정했는데 타입이 지정되지가 않았다.
 
-- 서버 API와 통신하는 코드는 useHooks로 작성하여 View와 분리하였습니다.
-- React Query를 사용해서 삭제 수정시 서버에 변경된 아이템을 재요청하는 코드를 작성하지 않았습니다.
-- FormContainer는 compound component 디자인 패턴을 사용해서 만들었습니다.
-- React Router Dom의 Outlet을 사용해서 "한 화면 내에서 Todo List와 개별 Todo의 상세를 확인할 수 있도록 해주세요." 조건을 수행하였습니다.
-- url을 사용해 TodoDetail 컴포넌트를 불러오기 때문에 "새로고침을 했을 때 현재 상태가 유지되어야 합니다."라는 조건을 지킬 수 있었습니다.
-- form은 컨트롤드 폼으로 설계하였습니다. useControlTodoForm 훅을 사용해서 제어할 수 있습니다.
+[재현 코드](https://stackblitz.com/edit/react-ts-1mwpyv?embed=1&file=useFetch.tsx)
 
-## 어플리케이션을 만들면서 궁금했고 앞으로 개선하고 싶은 부분
+그런데 [답변](https://github.com/starkoora/wanted-pre-onboarding-challenge-fe-1/issues/16#issuecomment-1219297743)이 너무 간단했다.
 
-- React Query를 사용할때 가끔 isLoading이 매우 짧아서 화면이 깜빡 거리는 경우가 있는데 이럴 때 로딩 화면은 어떻게 컨트롤 하는지 궁금합니다.
-- 로그인 할 때, Recoil에 유저의 정보를 담았습니다. isLogin이라는 값으로 로그인 여부를 판단하여 로그인이 되어있는데 /login으로 접근하는 것을 막습니다. 하지만 로그인을 하면서 isLogin이 true로 바뀌면서 아직 로그인이 다 되지 않았는데 /login을 막아버려서 그 다음 코드(리다이렉팅)가 동작하지 않는 문제가 있었습니다.
-- 새로고침을 할 경우 '페이지를 찾을 수 없음' 페이지로 이동합니다. 원인은 isLogin이 잠깐동안 false가 되어 /auth/login으로 이동했다가 true로 변경되면서 /auth/login 페이지로 접근을 막기 때문입니다. 어떻게 해결해야할까요?
-- 정합성을 깨뜨리지 않기 위한 코드를 작성하는 것이 아직 조금 어렵습니다.
-- 서버 에러, 서식 입력 에러 등의 처리가 미숙한 부분이 있습니다. 이 부분을 개선하고 싶습니다.
+결론 부터 말씀드리자면 response.json의 리턴타입이 Promise\<any\> 라서 그렇습니다
+
+```typescript
+// lib.dom.d.ts
+interface Body {
+  readonly body: ReadableStream<Uint8Array> | null;
+  readonly bodyUsed: boolean;
+  arrayBuffer(): Promise<ArrayBuffer>;
+  blob(): Promise<Blob>;
+  formData(): Promise<FormData>;
+  json(): Promise<any>;
+  text(): Promise<string>;
+}
+```
+
+그래서 타입 단언으로 문제를 해결했다.
+
+#### \<T extends unknown\>은 왜 사용할까?
+
+원티드 프리온보딩 수업 도중 올렸던 질문에 내가 올린 코드를 보고 다른 수강생 분이 질문을 주셨다.
+
+> 혹시 재현 코드에서 jsx를 리턴하지 않는데 ts가 아닌 tsx확장자로 하신 이유가 있을까요??
+> 그리고 제네릭 타입 지정해주실 때 TData extends unknown를 하신 이유도 궁금합니다!
+
+[타입스크립트 : response.json()은 왜 any일까요? · Issue #16 · starkoora/wanted-pre-onboarding-challenge-fe-1](https://github.com/starkoora/wanted-pre-onboarding-challenge-fe-1/issues/16#issuecomment-1219366250)
+
+살이 떨렸다. 사실 extends가 상속을 받기 위한 문법이라고 대강 알고만 있을 뿐… unknown 타입이 그냥 있다고 만 알고있고 .d.ts 파일 보면 TData = unknown이라고 많이 썼길래 그냥 따라 쓴것일 뿐 사실 정확한 이유를 모르고 그냥 썼다. 그래서 과제를 해야하는데… 그냥 unknown이 뭔지부터 죽치고 앉아서 찾아보기 시작했다.
+
+나름 찾은 결과다.
+
+1. Typescript에서 unknown은 타입 이론에 따라 최상위 타입이라고 합니다. (반면에 never는 최하위 타입) 그래서 모든 타입은 unknown이라고 합니다.(unknown이 모든 타입이 될 수 있는건지 모든 타입이 unknown인건지... 햇갈리네요)
+   - 아티클 : [When to use `never` and `unknown` in TypeScript](https://blog.logrocket.com/when-to-use-never-and-unknown-in-typescript-5e4d6c5799ad/)
+   - 공식문서 [New unknown top type](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-0.html#new-unknown-top-type)
+2. JSX에서 확장된 TSX를 사용할 경우 \<T\>가 컴파일러가 읽을 때 불분명한 부분이 있어서 컴파일러에게 Generic 타입이라는 것을 알려주기 위해서 \<T extends unknown\>이라고 알려주기 위해서라고 합니다.
+   - [타입스크립트에서 함수 문법](https://ui.toast.com/weekly-pick/ko_20210521#%EC%A0%9C%EB%84%A4%EB%A6%AD)
+3. TSX에서 사용할 때 \<T\>와 \<T extends unknown\>의 차이는 없다고 합니다. (1번에 따르면 수긍이 됩니다.)
+   - [TypeScript Generic Types and How to Properly Implement Them](https://medium.com/swlh/typescript-generic-types-and-how-to-properly-implement-them-498519a8ab65)
+4. unknown은 Type safe를 위해서 사용한다고 합니다. (이건 질문 내용과는 관련이 없지만 그냥 unknown이 뭔지 찾다고 꼬리를 물다가 발견해서...)
+   - [Type-Safe TypeScript](https://dev.to/mistval/type-safe-typescript-4a6f)
+   - [Using the unknown type](https://learntypescript.dev/03/l7-unknown)
+
+## 한계점 및 개선 사항
+
+- 에러 바운더리 처리가 되지 않았습니다. 리엑트 18.0부터 제공하는 에러 바운더리를 적용해보려고 했지만 적용하지 못했습니다.
 
 ## 자기 소개
 

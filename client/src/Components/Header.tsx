@@ -40,8 +40,6 @@ const LogContainer = styled.div`
   }
 `;
 
-interface IHeaderProps {}
-
 const Header = () => {
   const { isLogin } = useRecoilValue(userState);
 

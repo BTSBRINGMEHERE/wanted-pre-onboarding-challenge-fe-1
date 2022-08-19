@@ -59,7 +59,7 @@ const Login = () => {
       }, 500);
     }
     return () => clearTimeout(timer);
-  }, [isSuccess]);
+  }, [isSuccess, navigate, setUserState]);
 
   return (
     <Wrapper>

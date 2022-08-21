@@ -1,4 +1,4 @@
-# just do it!
+# just do it! 할 일 어
 
 - [just do it!](#just-do-it)
   - [just do it 소개 영상](#just-do-it-소개-영상)
@@ -1033,7 +1033,7 @@ interface Body {
 
 ## 한계점 및 개선 사항
 
-- 에러 바운더리 처리가 되지 않았습니다. 리엑트 18.0부터 제공하는 에러 바운더리를 적용해보려고 했지만 적용하지 못했습니다.
+- 에러 바운더리 처리가 되지 않았습니다. 리엑트 16.0부터 제공하는 에러 바운더리를 적용해보려고 했지만 적용하지 못했습니다.
 
 ## 자기 소개
 
@@ -1044,10 +1044,10 @@ interface Body {
 - 배운 것을 생각해보고 다른 사람들과 [공유하고 있습니다](https://movie42.github.io/blog). 공유를 통해 지식은 개선되고 발전된다고 믿고 있습니다.
 - 혹시 저의 코드를 보시고 채용에 관심이 있으시면 언제든지 연락주세요.
 
-> [이력서](https://movie42.github.io/)  
+> [이력서](https://movie42.github.io/resume)  
 > email : movie3342@gmail.com  
 > github : https://github.com/movie42  
-> blog : https://movie42.github.io/blog
+> blog : https://movie42.github.io
 
 ## 부록
 

@@ -1,6 +1,6 @@
-# just do it! 할 일 어
+# just do it! 투 두 어플리케이션
 
-- [just do it!](#just-do-it)
+- [just do it! 투 두 어플리케이션](#just-do-it-투-두-어플리케이션)
   - [just do it 소개 영상](#just-do-it-소개-영상)
   - [설치, 실행 방법](#설치-실행-방법)
     - [설치](#설치)

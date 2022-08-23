@@ -1,1 +1,1 @@
-export { mainUrl } from "./api";
+export { api } from "./api";

@@ -1,67 +1,30 @@
-import { useRecoilValue } from "recoil";
-import { userState } from "@/lib/atoms";
-import axios from "axios";
+import { api } from "../http";
 
-const useFetch = <TBody, TData extends unknown>(baseUrl: string) => {
-  const { token } = useRecoilValue(userState);
+const useFetch = <TBody, TData extends unknown>() => {
+  const getData = async (url: string): Promise<TData> => {
+    const response = await api.get(url);
 
-  const getData = async (subUrl: string): Promise<TData> => {
-    const url = `${baseUrl}${subUrl}`;
+    return response.data;
+  };
 
-    const response = await axios({
-      url,
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token
-      }
+  const putData = async (url: string, body: TBody): Promise<TData> => {
+    const response = await api.put(url, {
+      ...body
     });
 
     return response.data;
   };
 
-  const putData = async (subUrl: string, body: TBody): Promise<TData> => {
-    const url = `${baseUrl}${subUrl}`;
-
-    const response = await axios({
-      url,
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token
-      },
-      data: JSON.stringify(body)
+  const postData = async (url: string, body: TBody): Promise<TData> => {
+    const response = await api.post(url, {
+      ...body
     });
 
     return response.data;
   };
 
-  const postData = async (subUrl: string, body: TBody): Promise<TData> => {
-    const url = `${baseUrl}${subUrl}`;
-
-    const response = await axios({
-      url,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token
-      },
-      data: JSON.stringify(body)
-    });
-
-    return response.data;
-  };
-
-  const deleteData = async (subUrl: string): Promise<TData> => {
-    const url = `${baseUrl}${subUrl}`;
-    const response = await axios({
-      url,
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token
-      }
-    });
+  const deleteData = async (url: string): Promise<TData> => {
+    const response = await api.delete(url);
     return response.data;
   };
 

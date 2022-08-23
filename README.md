@@ -1,6 +1,7 @@
 # just do it!
 
 - [just do it!](#just-do-it)
+  - [자기 소개](#자기-소개)
   - [just do it 소개 영상](#just-do-it-소개-영상)
   - [설치, 실행 방법](#설치-실행-방법)
     - [설치](#설치)
@@ -25,8 +26,21 @@
       - [왜 response.json()은 왜 any일까요?](#왜-responsejson은-왜-any일까요)
       - [\<T extends unknown\>은 왜 사용할까?](#t-extends-unknown은-왜-사용할까)
   - [한계점 및 개선 사항](#한계점-및-개선-사항)
-  - [자기 소개](#자기-소개)
   - [부록](#부록)
+
+## 자기 소개
+
+프론트 앤드 개발자 고현수입니다.
+
+- 저는 좋은 코드를 작성하기 위해 이미 완성된 코드를 돌아보고 개선하려고 노력합니다. 바닐라 자바스크립트 [프로젝트를 3번 리펙토링](https://github.com/movie42/ychung) 해보고 그 프로젝트를 [리액트와 타입스크립트를 사용해서 마이그레이션 한 경험](https://github.com/movie42/ychung-frontend)이 있습니다.
+- 함께 일하고 대화를 통해 문제를 해결하는 것을 좋아합니다. UX/UI 디자이너로 7개월간 재직하면서 특수교육청 담당자와 많은 대화를 통해 사용자의 불편함을 개선한 경험이 있습니다. 과거 영화를 하면서 한 영화를 만들기 위해 많은 사람들과 대화를 통해 문제를 해결한 경험이 있습니다.
+- 배운 것을 생각해보고 다른 사람들과 [공유하고 있습니다](https://movie42.github.io/blog). 공유를 통해 지식은 개선되고 발전된다고 믿고 있습니다.
+- 혹시 저의 코드를 보시고 채용에 관심이 있으시면 언제든지 연락주세요.
+
+> [이력서](https://movie42.github.io/)  
+> email : movie3342@gmail.com  
+> github : https://github.com/movie42  
+> blog : https://movie42.github.io/blog
 
 ## just do it 소개 영상
 
@@ -125,17 +139,7 @@ Now listening on port 8080
 ```
 ├── Pages
 │   ├── Auth
-│   │   ├── Login.tsx
-│   │   ├── Logout.tsx
-│   │   ├── PageNotFound.tsx
-│   │   ├── SignUp.tsx
-│   │   ├── hooks
-│   │   │   ├── index.ts
-│   │   │   ├── useLogin.tsx
-│   │   │   ├── useRemoveUserState.tsx
-│   │   │   ├── useSetUserState.tsx
-│   │   │   ├── useSignup.tsx
-│   │   │   └── useValidation.tsx
+│   │   └── hooks
 ```
 
 2. 컴포넌트와 페이지, 라우터 폴더를 역할별로 나누었습니다.
@@ -157,93 +161,27 @@ Now listening on port 8080
 ├── package-lock.json
 ├── package.json
 ├── public
-│   ├── favicon.ico
-│   ├── index.html
-│   ├── logo192.png
-│   ├── logo512.png
-│   ├── manifest.json
-│   └── robots.txt
 ├── src
 │   ├── App.tsx
 │   ├── Components
-│   │   ├── FormContainer.tsx
-│   │   ├── Header.tsx
 │   │   ├── Modals
-│   │   │   ├── DeleteModal.tsx
-│   │   │   └── Modal.tsx
-│   │   ├── Skeleton.tsx
-│   │   ├── Snackbar
-│   │   │   └── Snackbar.tsx
-│   │   └── index.ts
+│   │   └── Snackbar
 │   ├── Layouts
-│   │   ├── MainLayout.tsx
-│   │   └── index.ts
 │   ├── Pages
 │   │   ├── Auth
-│   │   │   ├── Login.tsx
-│   │   │   ├── Logout.tsx
-│   │   │   ├── PageNotFound.tsx
-│   │   │   ├── SignUp.tsx
 │   │   │   ├── hooks
-│   │   │   │   ├── index.ts
-│   │   │   │   ├── useLogin.tsx
-│   │   │   │   ├── useRemoveUserState.tsx
-│   │   │   │   ├── useSetUserState.tsx
-│   │   │   │   ├── useSignup.tsx
-│   │   │   │   └── useValidation.tsx
-│   │   │   ├── index.ts
 │   │   │   └── styles
-│   │   │       ├── FormButtonStyled.tsx
-│   │   │       ├── FormDefaultStyle.tsx
-│   │   │       ├── FormErrorStyle.tsx
-│   │   │       └── index.ts
 │   │   ├── Main
-│   │   │   ├── Main.tsx
-│   │   │   └── index.ts
 │   │   ├── TODO
 │   │   │   ├── Detail
-│   │   │   │   ├── ToDoDetail.tsx
-│   │   │   │   ├── ToDoDetailContainer.tsx
-│   │   │   │   └── ToDoUpdateForm.tsx
 │   │   │   ├── Skeleton
-│   │   │   │   ├── SkeletonForTodoList.tsx
-│   │   │   │   └── SkeletonForTodoListItem.tsx
-│   │   │   ├── ToDoCreateForm.tsx
-│   │   │   ├── ToDoItem.tsx
-│   │   │   ├── ToDoList.tsx
-│   │   │   ├── ToDoListContainer.tsx
-│   │   │   ├── hooks
-│   │   │   │   ├── index.ts
-│   │   │   │   ├── useControlTodoForm.tsx
-│   │   │   │   ├── useCreateTodo.tsx
-│   │   │   │   ├── useDeleteTodo.tsx
-│   │   │   │   ├── useGetTodoDetail.tsx
-│   │   │   │   ├── useGetTodos.tsx
-│   │   │   │   └── useUpdateTodo.tsx
-│   │   │   └── index.ts
-│   │   └── index.ts
+│   │   │   └── hooks
 │   ├── Routes
-│   │   ├── ProtectRouter.tsx
-│   │   ├── Routers.tsx
-│   │   └── index.ts
-│   ├── index.tsx
 │   ├── lib
 │   │   ├── atoms
-│   │   │   ├── index.ts
-│   │   │   ├── snackbar.ts
-│   │   │   └── user.ts
 │   │   ├── hooks
-│   │   │   ├── index.ts
-│   │   │   ├── useChangeUTCToLocalDate.tsx
-│   │   │   ├── useFetch.tsx
-│   │   │   └── useModalContorl.tsx
 │   │   ├── http
-│   │   │   ├── api.ts
-│   │   │   └── index.ts
 │   │   └── styled
-│   │       ├── GlobalStyle.tsx
-│   │       ├── index.ts
-│   │       └── style.ts
 │   ├── react-app-env.d.ts
 │   ├── reportWebVitals.ts
 │   ├── setupTests.ts
@@ -1033,21 +971,7 @@ interface Body {
 
 ## 한계점 및 개선 사항
 
-- 에러 바운더리 처리가 되지 않았습니다. 리엑트 18.0부터 제공하는 에러 바운더리를 적용해보려고 했지만 적용하지 못했습니다.
-
-## 자기 소개
-
-프론트 앤드 개발자 고현수입니다.
-
-- 저는 좋은 코드를 작성하기 위해 이미 완성된 코드를 돌아보고 개선하려고 노력합니다. 바닐라 자바스크립트 [프로젝트를 3번 리펙토링](https://github.com/movie42/ychung) 해보고 그 프로젝트를 [리액트와 타입스크립트를 사용해서 마이그레이션 한 경험](https://github.com/movie42/ychung-frontend)이 있습니다.
-- 함께 일하고 대화를 통해 문제를 해결하는 것을 좋아합니다. UX/UI 디자이너로 7개월간 재직하면서 특수교육청 담당자와 많은 대화를 통해 사용자의 불편함을 개선한 경험이 있습니다. 과거 영화를 하면서 한 영화를 만들기 위해 많은 사람들과 대화를 통해 문제를 해결한 경험이 있습니다.
-- 배운 것을 생각해보고 다른 사람들과 [공유하고 있습니다](https://movie42.github.io/blog). 공유를 통해 지식은 개선되고 발전된다고 믿고 있습니다.
-- 혹시 저의 코드를 보시고 채용에 관심이 있으시면 언제든지 연락주세요.
-
-> [이력서](https://movie42.github.io/)  
-> email : movie3342@gmail.com  
-> github : https://github.com/movie42  
-> blog : https://movie42.github.io/blog
+- 에러 바운더리 처리가 되지 않았습니다. 리엑트 16.0부터 제공하는 에러 바운더리를 적용해보려고 했지만 적용하지 못했습니다.
 
 ## 부록
 

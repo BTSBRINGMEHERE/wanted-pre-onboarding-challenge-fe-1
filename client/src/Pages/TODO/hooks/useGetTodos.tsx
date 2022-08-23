@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { useFetch } from "@/lib/hooks";
-import { mainUrl } from "@/lib/http";
+
 import { snackbarState } from "@/lib/atoms";
 import { useSetRecoilState } from "recoil";
 
@@ -18,7 +18,7 @@ interface GetTodosVariables {
 }
 
 const useGetTodos = () => {
-  const { getData } = useFetch<unknown, GetTodosVariables>(mainUrl.baseUrl);
+  const { getData } = useFetch<unknown, GetTodosVariables>();
   const setSnackbarQueue = useSetRecoilState(snackbarState);
   return useQuery<GetTodosVariables, AxiosError, Todos[]>(
     ["todoList"],

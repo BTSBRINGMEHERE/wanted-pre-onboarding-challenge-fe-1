@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useFetch } from "@/lib/hooks";
-import { mainUrl } from "@/lib/http";
+
 import { useSetRecoilState } from "recoil";
 import { snackbarState } from "@/lib/atoms";
 import { AxiosError } from "axios";
@@ -20,9 +20,7 @@ interface CreateTodoVariable {
 
 const useCreateTodo = () => {
   const setSnackbarQueue = useSetRecoilState(snackbarState);
-  const { postData } = useFetch<CreateTodoVariable, CreateTodoData>(
-    mainUrl.baseUrl
-  );
+  const { postData } = useFetch<CreateTodoVariable, CreateTodoData>();
   const queryClient = useQueryClient();
 
   return useMutation<CreateTodoData, AxiosError, CreateTodoVariable, unknown>(

@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { useFetch } from "@/lib/hooks";
-import { mainUrl } from "@/lib/http";
 
 interface TodoDetail {
   title: string;
@@ -19,7 +18,7 @@ interface TodoDetailVariable {
 }
 
 const useGetTodoDetail = ({ id }: TodoDetailVariable) => {
-  const { getData } = useFetch<unknown, TodoDetailData>(mainUrl.baseUrl);
+  const { getData } = useFetch<unknown, TodoDetailData>();
 
   return useQuery<TodoDetailData, Error, TodoDetail>(
     ["todo", id],

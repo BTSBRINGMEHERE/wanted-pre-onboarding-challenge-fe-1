@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import { userState } from "@/lib/atoms";
 

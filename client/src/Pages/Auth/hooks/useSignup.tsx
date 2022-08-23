@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useFetch } from "@/lib/hooks";
-import { mainUrl } from "@/lib/http";
+
 import { AxiosError } from "axios";
 import { useSetRecoilState } from "recoil";
 import { snackbarState } from "@/lib/atoms";
@@ -15,7 +15,7 @@ interface SignupVariable {
 }
 
 const useSignup = () => {
-  const { postData } = useFetch<SignupVariable, SignupData>(mainUrl.baseUrl);
+  const { postData } = useFetch<SignupVariable, SignupData>();
   const setSnackbarQueue = useSetRecoilState(snackbarState);
 
   return useMutation<

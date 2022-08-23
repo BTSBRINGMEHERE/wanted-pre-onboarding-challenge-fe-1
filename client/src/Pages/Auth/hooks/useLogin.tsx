@@ -1,7 +1,7 @@
 import React from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useFetch } from "@/lib/hooks";
-import { mainUrl } from "@/lib/http";
+
 import { useSetRecoilState } from "recoil";
 import { snackbarState } from "@/lib/atoms";
 import useSetUserState from "./useSetUserState";
@@ -19,7 +19,7 @@ interface LoginVariable {
 }
 
 const useLogin = () => {
-  const { postData } = useFetch<LoginVariable, LoginData>(mainUrl.baseUrl);
+  const { postData } = useFetch<LoginVariable, LoginData>();
   const setSnackBar = useSetRecoilState(snackbarState);
   const { setLocalStorage, setUserState } = useSetUserState();
   return useMutation<LoginData, AxiosError, LoginVariable>(

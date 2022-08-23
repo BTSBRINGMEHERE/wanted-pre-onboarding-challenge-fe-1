@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 interface IuseModalContorlProps<IFunctionParameter, TFuntionReturnValue> {
   func?: (param?: IFunctionParameter) => TFuntionReturnValue;
